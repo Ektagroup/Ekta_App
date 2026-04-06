@@ -2,7 +2,9 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>EKTA | Digital Pariwar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -20,10 +22,10 @@
 
         body { background: #f4f7f6; font-family: 'Outfit', sans-serif; color: #1e293b; overflow-x: hidden; }
         .gold-brand { background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; font-size: 42px; letter-spacing: 4px; }
-        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(179, 135, 40, 0.2); border-radius: 30px; width: 360px; padding: 40px 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.9); }
-        .input-field { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(179, 135, 40, 0.1); border-radius: 15px; padding: 12px 15px; color: white; outline: none; margin-top: 15px; text-align: center; font-size: 14px; transition: 0.3s; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(179, 135, 40, 0.2); border-radius: 30px; width: 100%; max-width: 380px; padding: 40px 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.9); margin: 20px; }
+        .input-field { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(179, 135, 40, 0.1); border-radius: 15px; padding: 14px 15px; color: white; outline: none; margin-top: 15px; text-align: center; font-size: 15px; transition: 0.3s; }
         .input-field:focus { border-color: #b38728; background: rgba(255,255,255,0.1); }
-        .gold-btn { background: linear-gradient(45deg, #bf953f, #aa771c); color: #000; font-weight: bold; width: 100%; padding: 14px; border-radius: 15px; margin-top: 25px; cursor: pointer; border: none; transition: 0.3s; letter-spacing: 1px; }
+        .gold-btn { background: linear-gradient(45deg, #bf953f, #aa771c); color: #000; font-weight: bold; width: 100%; padding: 15px; border-radius: 15px; margin-top: 25px; cursor: pointer; border: none; transition: 0.3s; letter-spacing: 1px; }
         .gold-btn:active { transform: scale(0.96); }
         .gold-btn:disabled { opacity: 0.7; cursor: not-allowed; }
         .tab-btn { color: #555; cursor: pointer; font-size: 13px; font-weight: 600; padding-bottom: 5px; transition: 0.3s; }
@@ -37,10 +39,9 @@
         .nav-link.active { color: #b38728; }
         .hidden-section { display: none; }
         .btn-gold { background: linear-gradient(45deg, #bf953f, #aa771c); color: white; border-radius: 12px; font-weight: 600; }
-        #coreFrame { width: 100%; height: 80vh; border: none; border-radius: 20px; }
+        #coreFrame { width: 100%; height: 75vh; border: none; border-radius: 20px; }
         .profile-img { object-fit: cover; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .loader-overlay { background: rgba(255,255,255,0.9); display: none; position: fixed; inset: 0; z-index: 500; align-items: center; justify-content: center; flex-direction: column; }
-        .comment-item { background: #f8fafc; border-radius: 12px; padding: 8px 12px; margin-bottom: 6px; font-size: 13px; border: 1px solid #f1f5f9; }
         video { width: 100%; border-radius: 16px; margin-bottom: 12px; }
     </style>
 </head>
@@ -51,8 +52,7 @@
     <p class="font-bold text-yellow-800">Processing...</p>
 </div>
 
-<!-- Login/Signup Screen -->
-<div id="loginScreen" class="flex items-center justify-center min-h-screen bg-black hidden">
+<div id="loginScreen" class="flex items-center justify-center min-h-screen bg-black">
     <div class="glass-card">
         <div class="text-center mb-6">
             <h1 class="gold-brand italic">EKTA</h1>
@@ -76,13 +76,12 @@
             <p class="text-[10px] text-gray-500 mb-4 font-semibold uppercase">Primary Inbox Check Karein</p>
             <input type="text" id="otpInput" placeholder="X X X X X X" maxlength="6" class="input-field text-xl tracking-[10px] font-bold border-yellow-600">
             <button onclick="confirmOTP()" id="verifyBtn" class="gold-btn">VERIFY & ENTER</button>
-            <p onclick="location.reload()" class="text-xs text-gray-600 mt-6 cursor-pointer hover:underline">Wapas Jayein</p>
+            <p onclick="location.reload()" class="text-xs text-gray-400 mt-6 cursor-pointer hover:underline">Wapas Jayein</p>
         </div>
     </div>
 </div>
 
-<!-- Main App -->
-<div id="mainApp">
+<div id="mainApp" class="hidden">
     <nav class="glass-nav fixed top-0 w-full z-[100] px-6 h-16 flex items-center justify-between">
         <h1 onclick="showSec('home')" class="text-2xl font-black gold-grad italic">EKTA</h1>
         <div class="flex items-center gap-6">
@@ -123,7 +122,7 @@
                         <img id="profilePic" src="https://via.placeholder.com/100" class="w-32 h-32 rounded-full mx-auto profile-img bg-white object-cover">
                         <label class="absolute bottom-1 right-1 bg-white p-2 rounded-full shadow-lg border cursor-pointer hover:scale-110 transition">
                             <i class="fa fa-camera text-yellow-600"></i>
-                            <input type="file" class="hidden" accept="image/*" onchange="uploadMedia(this, 'profile')">
+                            <input type="file" class="hidden" accept="image/*" onchange="uploadMedia(this, 'profile').then(url => { if(url && url !== 'error') updateProfilePic(url); })">
                         </label>
                     </div>
                     <h2 id="dispName" class="text-2xl font-bold mt-3">User</h2>
@@ -142,7 +141,6 @@
     </main>
 </div>
 
-<!-- Post Modal -->
 <div id="postModal" class="fixed inset-0 bg-black/60 z-[200] hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl">
         <div class="flex justify-between items-center mb-4">
@@ -166,7 +164,6 @@
     </div>
 </div>
 
-<!-- Edit Modal -->
 <div id="editModal" class="fixed inset-0 bg-black/50 z-[200] hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-md rounded-3xl p-6">
         <h3 class="font-bold mb-4">Profile Update</h3>
@@ -193,6 +190,11 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    // Ensure persistent auth on mobile (fixes login state staying on mobile browsers)
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(err => {
+        console.warn("Auth persistence set error:", err);
+    });
+
     const CLOUD_NAME = "dcmru4a63";
     const UPLOAD_PRESET = "ekta_posts";
 
@@ -200,10 +202,9 @@
     let generatedOTP = "";
     let postMediaFile = null;
 
-    document.onkeydown = (e) => { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) return false; };
-
     emailjs.init("7qwb9fukJ15J0p2VS");
 
+    // Tab Switch
     function switchTab(t) {
         mode = t;
         document.getElementById('loginTab').className = t==='login' ? 'tab-btn tab-active' : 'tab-btn';
@@ -215,6 +216,7 @@
         else nameField.classList.add('hidden');
     }
 
+    // Handle Login/Signup Action
     async function handleAction() {
         const emailValue = document.getElementById('email').value.trim();
         const passValue = document.getElementById('pass').value;
@@ -252,6 +254,7 @@
         }
     }
 
+    // Confirm OTP
     async function confirmOTP() {
         const userOTP = document.getElementById('otpInput').value;
         const emailValue = document.getElementById('email').value.trim();
@@ -265,6 +268,14 @@
         try {
             const userCredential = await auth.createUserWithEmailAndPassword(emailValue, passValue);
             await userCredential.user.updateProfile({ displayName: nameValue });
+            // use the created user's uid (was using `res` before which is undefined)
+            await db.collection("users").doc(userCredential.user.uid).set({
+                displayName: nameValue,
+                email: emailValue,
+                bio: "Ekta hi shakti hai",
+                photoURL: "",
+                joined: firebase.firestore.FieldValue.serverTimestamp()
+            });
             alert("Mubarak Ho! Welcome to EKTA Pariwar.");
         } catch(err) {
             if(err.code === 'auth/email-already-in-use') {
@@ -273,6 +284,31 @@
             } else alert(err.message);
         }
     }
+
+    // ==================== DIRECT HOME LOGIC ====================
+    auth.onAuthStateChanged(async (user) => {
+        if (user) {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+
+            const pic = user.photoURL || `https://via.placeholder.com/100/b38728/ffffff?text=${user.email ? user.email[0].toUpperCase() : 'E'}`;
+            document.getElementById('navUser').src = pic;
+            document.getElementById('feedAvatar').src = pic;
+            document.getElementById('profilePic').src = pic;
+            document.getElementById('dispName').innerText = user.displayName || "EKTA Member";
+
+            // Bio Load Karein
+            db.collection("users").doc(user.uid).get().then(doc => {
+                if(doc.exists && doc.data().bio) document.getElementById('dispBio').innerText = doc.data().bio;
+            });
+
+            setTimeout(loadFeed, 800);
+        } else {
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            switchTab('login');
+        }
+    });
 
     function showSec(s) {
         ['home', 'core', 'profile'].forEach(i => {
@@ -336,7 +372,6 @@
         }
     }
 
-    // ==================== FIXED savePost ====================
     async function savePost() {
         const text = document.getElementById('postContent').value.trim();
         if (!text && !postMediaFile) {
@@ -361,6 +396,8 @@
         }
 
         try {
+            // ensure user is available
+            if(!auth.currentUser) throw new Error("User not authenticated. Try logging in again.");
             await db.collection("posts").add({
                 text: text,
                 media: mediaUrl,
@@ -371,14 +408,12 @@
                 time: firebase.firestore.FieldValue.serverTimestamp()
             });
 
-            console.log("✅ Post saved successfully in Firestore");
             alert("✅ Post successfully ho gayi!");
             document.getElementById('postContent').value = "";
             closeModal();
-            loadFeed();   // Force refresh feed
+            loadFeed();
         } catch(e) {
-            console.error("Firestore Save Error:", e);
-            alert("Post save mein error: " + e.message);
+            alert("Post save mein error: " + (e.message || e));
         } finally {
             btn.innerText = originalText;
             btn.disabled = false;
@@ -407,9 +442,9 @@
                     <span onclick='toggleLike("${id}", ${JSON.stringify(p.likes || [])})' class="cursor-pointer ${hasLiked ? 'text-blue-600' : ''}">
                         <i class="fa${hasLiked ? '-solid' : '-regular'} fa-thumbs-up"></i> ${p.likes ? p.likes.length : 0} LIKES
                     </span>
-                    <span class="cursor-pointer"><i class="fa-regular fa-comment"></i> COMMENT</span>
+                    <span class="cursor-pointer" onclick="toggleComments('${id}')"><i class="fa-regular fa-comment"></i> COMMENT</span>
                 </div>
-                <div id="cmts-${id}" class="mt-3"></div>
+                <div id="cmts-${id}" class="mt-3 space-y-2 max-h-32 overflow-y-auto hidden"></div>
                 <div class="mt-3 flex gap-2">
                     <input id="cmt-in-${id}" type="text" placeholder="Likho..." class="flex-1 bg-gray-50 rounded-full px-4 py-1.5 text-[11px] outline-none border">
                     <button onclick="addComment('${id}')" class="text-yellow-700 font-bold text-[11px]">Send</button>
@@ -419,12 +454,8 @@
     }
 
     function loadFeed() {
-        console.log("🔄 Loading feed...");
         const feed = document.getElementById('feedArea');
-        feed.innerHTML = "<p class='text-center text-gray-500 py-10'>Posts load ho rahi hain...</p>";
-
         db.collection("posts").orderBy("time", "desc").onSnapshot(snap => {
-            console.log("📡 Snapshot received, total posts:", snap.size);
             feed.innerHTML = "";
             if (snap.empty) {
                 feed.innerHTML = "<p class='text-center text-gray-400 py-10'>Abhi koi post nahi hai. Pehli post karo!</p>";
@@ -432,14 +463,28 @@
             }
             snap.forEach(doc => {
                 feed.innerHTML += renderPost(doc.data(), doc.id);
+                loadComments(doc.id);
             });
-        }, (error) => {
-            console.error("❌ Feed Error:", error);
-            feed.innerHTML = "<p class='text-center text-red-500 py-10'>Feed load karne mein error aa raha hai.</p>";
         });
     }
 
-    // Baaki functions
+    function toggleComments(id) {
+        const div = document.getElementById('cmts-'+id);
+        div.classList.toggle('hidden');
+    }
+
+    function loadComments(pid) {
+        db.collection("posts").doc(pid).collection("comments").orderBy("time", "asc").onSnapshot(snap => {
+            const div = document.getElementById('cmts-'+pid);
+            if(!div) return;
+            div.innerHTML = "";
+            snap.forEach(doc => {
+                const c = doc.data();
+                div.innerHTML += `<div class="bg-gray-50 p-2 rounded-lg text-[10px]"><b class="text-yellow-800">${c.uName}:</b> ${c.text}</div>`;
+            });
+        });
+    }
+
     async function toggleLike(pid, likes) {
         if (!auth.currentUser) return;
         const uid = auth.currentUser.uid;
@@ -457,6 +502,7 @@
             time: firebase.firestore.FieldValue.serverTimestamp()
         });
         inp.value = "";
+        document.getElementById('cmts-'+pid).classList.remove('hidden');
     }
 
     async function deletePost(id) {
@@ -465,7 +511,7 @@
 
     function loadUserPosts() {
         if (!auth.currentUser) return;
-        db.collection("posts").where("uid", "==", auth.currentUser.uid).orderBy("time", "desc").get().then(snap => {
+        db.collection("posts").where("uid", "==", auth.currentUser.uid).orderBy("time", "desc").onSnapshot(snap => {
             const container = document.getElementById('userPosts');
             container.innerHTML = snap.empty ? "<p class='text-center text-gray-400 text-xs py-10'>Gallery khaali hai.</p>" : "";
             snap.forEach(doc => container.innerHTML += renderPost(doc.data(), doc.id));
@@ -480,8 +526,17 @@
         try {
             if(nName) await user.updateProfile({ displayName: nName });
             await db.collection("users").doc(user.uid).set({ bio: nBio, displayName: nName || user.displayName }, { merge: true });
+            alert("Profile Update Ho Gayi!");
+            document.getElementById('editModal').classList.add('hidden');
             location.reload();
         } catch(e) { alert(e.message); }
+    }
+
+    async function updateProfilePic(url) {
+        const user = auth.currentUser;
+        await user.updateProfile({ photoURL: url });
+        await db.collection("users").doc(user.uid).set({ photoURL: url }, { merge: true });
+        location.reload();
     }
 
     function logout() {
@@ -489,28 +544,6 @@
             auth.signOut().then(() => location.reload());
         }
     }
-
-    // Auth State - Strong & Direct Home
-    auth.onAuthStateChanged(async (user) => {
-        console.log("Auth changed:", user ? "Logged In" : "Logged Out");
-
-        if (user) {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('mainApp').classList.remove('hidden');
-
-            const pic = user.photoURL || `https://via.placeholder.com/100/b38728/ffffff?text=${user.email ? user.email[0].toUpperCase() : 'E'}`;
-            document.getElementById('navUser').src = pic;
-            document.getElementById('feedAvatar').src = pic;
-            document.getElementById('profilePic').src = pic;
-            document.getElementById('dispName').innerText = user.displayName || "EKTA Member";
-
-            // Force load feed
-            setTimeout(loadFeed, 800);
-        } else {
-            document.getElementById('mainApp').classList.add('hidden');
-            document.getElementById('loginScreen').classList.remove('hidden');
-        }
-    });
 </script>
 </body>
 </html>
