@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EKTA | Digital Pariwar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins:400,600,800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+
+        body { background: #f4f7f6; font-family: 'Outfit', sans-serif; color: #1e293b; overflow-x: hidden; }
+        .gold-brand { background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; font-size: 42px; letter-spacing: 4px; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(179, 135, 40, 0.2); border-radius: 30px; width: 360px; padding: 40px 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.9); }
+        .input-field { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(179, 135, 40, 0.1); border-radius: 15px; padding: 12px 15px; color: white; outline: none; margin-top: 15px; text-align: center; font-size: 14px; transition: 0.3s; }
+        .input-field:focus { border-color: #b38728; background: rgba(255,255,255,0.1); }
+        .gold-btn { background: linear-gradient(45deg, #bf953f, #aa771c); color: #000; font-weight: bold; width: 100%; padding: 14px; border-radius: 15px; margin-top: 25px; cursor: pointer; border: none; transition: 0.3s; letter-spacing: 1px; }
+        .gold-btn:active { transform: scale(0.96); }
+        .gold-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        .tab-btn { color: #555; cursor: pointer; font-size: 13px; font-weight: 600; padding-bottom: 5px; transition: 0.3s; }
+        .tab-active { color: #b38728; border-bottom: 2px solid #b38728; }
+        .hidden { display: none; }
+
+        .glass-nav { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(179,135,40,0.1); }
+        .gold-grad { background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 50%, #b38728 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; cursor: pointer; }
+        .ekta-card { background: white; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid #edf2f7; transition: 0.4s; overflow: hidden; }
+        .nav-link { color: #94a3b8; font-size: 24px; transition: 0.3s; position: relative; cursor: pointer; padding: 10px; }
+        .nav-link.active { color: #b38728; }
+        .hidden-section { display: none; }
+        .btn-gold { background: linear-gradient(45deg, #bf953f, #aa771c); color: white; border-radius: 12px; font-weight: 600; }
+        #coreFrame { width: 100%; height: 80vh; border: none; border-radius: 20px; }
+        .profile-img { object-fit: cover; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .loader-overlay { background: rgba(255,255,255,0.9); display: none; position: fixed; inset: 0; z-index: 500; align-items: center; justify-content: center; flex-direction: column; }
+        .comment-item { background: #f8fafc; border-radius: 12px; padding: 8px 12px; margin-bottom: 6px; font-size: 13px; border: 1px solid #f1f5f9; }
+        video { width: 100%; border-radius: 16px; margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+
+<div id="mainLoader" class="loader-overlay">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-yellow-600 mb-4"></div>
+    <p class="font-bold text-yellow-800">Processing...</p>
+</div>
+
+<!-- Login/Signup Screen -->
+<div id="loginScreen" class="flex items-center justify-center min-h-screen bg-black hidden">
+    <div class="glass-card">
+        <div class="text-center mb-6">
+            <h1 class="gold-brand italic">EKTA</h1>
+            <p class="text-[8px] text-gray-600 tracking-[6px] uppercase">Pariwar Humesha Saath</p>
+        </div>
+
+        <div class="flex justify-around mb-8" id="tabBar">
+            <span id="loginTab" onclick="switchTab('login')" class="tab-btn tab-active">LOGIN</span>
+            <span id="signupTab" onclick="switchTab('signup')" class="tab-btn">SIGN UP</span>
+        </div>
+
+        <div id="authContent">
+            <input type="text" id="nameInput" placeholder="Naam (Signup only)" class="input-field hidden">
+            <input type="email" id="email" placeholder="Email Address" class="input-field">
+            <input type="password" id="pass" placeholder="Password" class="input-field">
+            <button onclick="handleAction()" id="actionBtn" class="gold-btn uppercase">LOGIN</button>
+        </div>
+
+        <div id="otpArea" class="hidden text-center">
+            <p class="text-xs text-yellow-600 mb-2 font-bold italic">Verification OTP Bheja Gaya!</p>
+            <p class="text-[10px] text-gray-500 mb-4 font-semibold uppercase">Primary Inbox Check Karein</p>
+            <input type="text" id="otpInput" placeholder="X X X X X X" maxlength="6" class="input-field text-xl tracking-[10px] font-bold border-yellow-600">
+            <button onclick="confirmOTP()" id="verifyBtn" class="gold-btn">VERIFY & ENTER</button>
+            <p onclick="location.reload()" class="text-xs text-gray-600 mt-6 cursor-pointer hover:underline">Wapas Jayein</p>
+        </div>
+    </div>
+</div>
+
+<!-- Main App -->
+<div id="mainApp">
+    <nav class="glass-nav fixed top-0 w-full z-[100] px-6 h-16 flex items-center justify-between">
+        <h1 onclick="showSec('home')" class="text-2xl font-black gold-grad italic">EKTA</h1>
+        <div class="flex items-center gap-6">
+            <i onclick="showSec('home')" id="n-home" class="fa fa-house nav-link active"></i>
+            <i onclick="showSec('core')" id="n-core" class="fa fa-earth-americas nav-link"></i>
+            <img onclick="showSec('profile')" id="navUser" src="https://via.placeholder.com/40" class="w-9 h-9 rounded-full cursor-pointer profile-img">
+        </div>
+    </nav>
+
+    <main class="max-w-[550px] mx-auto mt-24 pb-24 px-4">
+        <section id="sec-home">
+            <div class="ekta-card p-4 mb-6">
+                <div class="flex gap-3 items-center">
+                    <img id="feedAvatar" src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full border object-cover">
+                    <div onclick="openPost()" class="flex-1 bg-gray-50 rounded-full px-5 py-2.5 text-gray-400 text-sm cursor-pointer border border-gray-100">
+                        Bhai, kuch share karein...
+                    </div>
+                </div>
+            </div>
+            <div id="feedArea" class="space-y-6"></div>
+        </section>
+
+        <section id="sec-core" class="hidden-section">
+            <div class="ekta-card p-2 bg-white">
+                <div class="p-3 flex justify-between items-center border-b mb-2">
+                    <span class="font-bold text-yellow-700">Ekta Core Group</span>
+                    <i class="fa fa-external-link text-gray-400 text-xs"></i>
+                </div>
+                <iframe src="https://ektagroup.github.io/ekta-pariwar/" id="coreFrame"></iframe>
+            </div>
+        </section>
+
+        <section id="sec-profile" class="hidden-section">
+            <div class="ekta-card overflow-hidden mb-6">
+                <div class="h-32 bg-gradient-to-r from-yellow-600 to-yellow-800"></div>
+                <div class="px-6 pb-6 text-center -mt-16">
+                    <div class="relative inline-block">
+                        <img id="profilePic" src="https://via.placeholder.com/100" class="w-32 h-32 rounded-full mx-auto profile-img bg-white object-cover">
+                        <label class="absolute bottom-1 right-1 bg-white p-2 rounded-full shadow-lg border cursor-pointer hover:scale-110 transition">
+                            <i class="fa fa-camera text-yellow-600"></i>
+                            <input type="file" class="hidden" accept="image/*" onchange="uploadMedia(this, 'profile')">
+                        </label>
+                    </div>
+                    <h2 id="dispName" class="text-2xl font-bold mt-3">User</h2>
+                    <p id="dispBio" class="text-gray-500 italic text-sm mt-1">"Ekta hi shakti hai"</p>
+                    <div class="flex justify-center gap-2 mt-5">
+                        <button onclick="openEditProfile()" class="btn-gold px-6 py-2 text-xs uppercase">Edit Profile</button>
+                        <button onclick="logout()" class="bg-gray-100 text-gray-500 px-6 py-2 rounded-xl text-xs font-bold">Logout</button>
+                    </div>
+                </div>
+            </div>
+            <h3 class="font-bold text-lg mb-4 ml-2">Meri Gallery</h3>
+            <div id="userPosts" class="space-y-4"></div>
+        </section>
+
+        <p class="text-center text-[10px] text-gray-400 mt-10">Website Design By | Shakil Chouhan (ilu) | © 2026</p>
+    </main>
+</div>
+
+<!-- Post Modal -->
+<div id="postModal" class="fixed inset-0 bg-black/60 z-[200] hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="font-bold">Nayi Post</h3>
+            <button onclick="closeModal()" class="text-gray-400 text-xl">✕</button>
+        </div>
+        <textarea id="postContent" class="w-full h-32 text-lg outline-none resize-none" placeholder="Kya chal raha hai?"></textarea>
+
+        <div id="previewBox" class="hidden relative mt-3 mb-3">
+            <img id="postPreview" src="" class="w-full rounded-xl max-h-48 object-cover">
+            <button onclick="removePreview()" class="absolute top-2 right-2 bg-black/50 text-white p-1 rounded-full text-xs">✕</button>
+        </div>
+
+        <label class="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 cursor-pointer mb-4 hover:bg-yellow-50 transition">
+            <i class="fa fa-image text-2xl text-yellow-600"></i>
+            <span class="font-bold text-sm text-gray-600">Add Photo/Video</span>
+            <input type="file" id="postFile" class="hidden" accept="image/*,video/*" onchange="handlePreview(this)">
+        </label>
+
+        <button onclick="savePost()" id="postBtn" class="w-full btn-gold py-3 shadow-lg">Post Karein</button>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="editModal" class="fixed inset-0 bg-black/50 z-[200] hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-3xl p-6">
+        <h3 class="font-bold mb-4">Profile Update</h3>
+        <input id="newName" type="text" placeholder="Naam" class="w-full bg-gray-50 p-3 rounded-xl mb-3 outline-none border focus:border-yellow-500">
+        <input id="newBio" type="text" placeholder="Bio" class="w-full bg-gray-50 p-3 rounded-xl mb-3 outline-none border focus:border-yellow-500">
+        <button onclick="updateProfile()" class="w-full btn-gold py-3">Save</button>
+        <button onclick="document.getElementById('editModal').classList.add('hidden')" class="w-full text-gray-400 mt-2 text-sm">Cancel</button>
+    </div>
+</div>
+
+<script>
+    AOS.init();
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDLU2_mNM0YCQRBMnrza3dPY0hgNFDft7A",
+        authDomain: "ekta-social.firebaseapp.com",
+        projectId: "ekta-social",
+        storageBucket: "ekta-social.firebasestorage.app",
+        messagingSenderId: "580591801781",
+        appId: "1:580591801781:web:9c9a491cdd3778e6bbf5fc"
+    };
+
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const CLOUD_NAME = "dcmru4a63";
+    const UPLOAD_PRESET = "ekta_posts";
+
+    let mode = 'login';
+    let generatedOTP = "";
+    let postMediaFile = null;
+
+    document.onkeydown = (e) => { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) return false; };
+
+    emailjs.init("7qwb9fukJ15J0p2VS");
+
+    function switchTab(t) {
+        mode = t;
+        document.getElementById('loginTab').className = t==='login' ? 'tab-btn tab-active' : 'tab-btn';
+        document.getElementById('signupTab').className = t==='signup' ? 'tab-btn tab-active' : 'tab-btn';
+        document.getElementById('actionBtn').innerText = t.toUpperCase();
+
+        const nameField = document.getElementById('nameInput');
+        if (t === 'signup') nameField.classList.remove('hidden');
+        else nameField.classList.add('hidden');
+    }
+
+    async function handleAction() {
+        const emailValue = document.getElementById('email').value.trim();
+        const passValue = document.getElementById('pass').value;
+        const btn = document.getElementById('actionBtn');
+
+        if(!emailValue || !passValue) return alert("Bhai, Email aur Password dono bhariye!");
+
+        btn.disabled = true;
+
+        if(mode === 'signup') {
+            btn.innerText = "Sending OTP...";
+            generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+            const templateParams = { to_email: emailValue, otp: generatedOTP };
+
+            emailjs.send("service_j2hd99d", "template_slzkovp", templateParams)
+            .then(() => {
+                document.getElementById('authContent').classList.add('hidden');
+                document.getElementById('tabBar').classList.add('hidden');
+                document.getElementById('otpArea').classList.remove('hidden');
+            })
+            .catch((error) => {
+                alert("OTP error: " + (error.text || error));
+                btn.innerText = "SIGN UP";
+                btn.disabled = false;
+            });
+        } else {
+            btn.innerText = "Logging in...";
+            try {
+                await auth.signInWithEmailAndPassword(emailValue, passValue);
+            } catch (err) {
+                alert("Login fail! Check Details.");
+                btn.innerText = "LOGIN";
+            } finally { btn.disabled = false; }
+        }
+    }
+
+    async function confirmOTP() {
+        const userOTP = document.getElementById('otpInput').value;
+        const emailValue = document.getElementById('email').value.trim();
+        const passValue = document.getElementById('pass').value;
+        const nameValue = document.getElementById('nameInput').value.trim() || "EKTA Member";
+        const vBtn = document.getElementById('verifyBtn');
+
+        if(userOTP !== generatedOTP) return alert("Galat OTP!");
+
+        vBtn.innerText = "Joining Pariwar...";
+        try {
+            const userCredential = await auth.createUserWithEmailAndPassword(emailValue, passValue);
+            await userCredential.user.updateProfile({ displayName: nameValue });
+            alert("Mubarak Ho! Welcome to EKTA Pariwar.");
+        } catch(err) {
+            if(err.code === 'auth/email-already-in-use') {
+                alert("Account pehle se hai! Direct Login karein.");
+                location.reload();
+            } else alert(err.message);
+        }
+    }
+
+    function showSec(s) {
+        ['home', 'core', 'profile'].forEach(i => {
+            document.getElementById('sec-'+i).classList.add('hidden-section');
+            const navIcon = document.getElementById('n-'+i);
+            if(navIcon) navIcon.classList.remove('active');
+        });
+        document.getElementById('sec-'+s).classList.remove('hidden-section');
+        const activeIcon = document.getElementById('n-'+s);
+        if(activeIcon) activeIcon.classList.add('active');
+        if(s === 'profile') loadUserPosts();
+    }
+
+    function openPost() { document.getElementById('postModal').classList.remove('hidden'); }
+    function closeModal() {
+        document.getElementById('postModal').classList.add('hidden');
+        removePreview();
+    }
+    function openEditProfile() { document.getElementById('editModal').classList.remove('hidden'); }
+
+    function handlePreview(input) {
+        if (input.files && input.files[0]) {
+            postMediaFile = input.files[0];
+            const reader = new FileReader();
+            reader.onload = e => {
+                document.getElementById('previewBox').classList.remove('hidden');
+                document.getElementById('postPreview').src = e.target.result;
+            };
+            reader.readAsDataURL(postMediaFile);
+        }
+    }
+
+    function removePreview() {
+        postMediaFile = null;
+        document.getElementById('previewBox').classList.add('hidden');
+        document.getElementById('postFile').value = "";
+    }
+
+    async function uploadMedia(inputOrFile, type) {
+        const file = inputOrFile instanceof File ? inputOrFile : inputOrFile.files[0];
+        if(!file) return "";
+
+        document.getElementById('mainLoader').style.display = 'flex';
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', UPLOAD_PRESET);
+
+        try {
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: "POST", body: formData });
+            const data = await res.json();
+            if(!res.ok) throw new Error(data.error?.message || "Upload failed");
+            return data.secure_url;
+        } catch (e) {
+            console.error("Cloudinary Error:", e);
+            alert("Cloudinary Upload Error: " + e.message);
+            return "error";
+        }
+        finally {
+            document.getElementById('mainLoader').style.display = 'none';
+        }
+    }
+
+    // ==================== FIXED savePost ====================
+    async function savePost() {
+        const text = document.getElementById('postContent').value.trim();
+        if (!text && !postMediaFile) {
+            alert("Kuch likho ya photo/video add karo!");
+            return;
+        }
+
+        const btn = document.getElementById('postBtn');
+        const originalText = btn.innerText;
+
+        btn.innerText = "Posting...";
+        btn.disabled = true;
+
+        let mediaUrl = "";
+        if (postMediaFile) {
+            mediaUrl = await uploadMedia(postMediaFile, 'post');
+            if (mediaUrl === "error") {
+                btn.innerText = originalText;
+                btn.disabled = false;
+                return;
+            }
+        }
+
+        try {
+            await db.collection("posts").add({
+                text: text,
+                media: mediaUrl,
+                uid: auth.currentUser.uid,
+                uName: auth.currentUser.displayName || "EKTA Member",
+                uPic: auth.currentUser.photoURL || "https://via.placeholder.com/100",
+                likes: [],
+                time: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+            console.log("✅ Post saved successfully in Firestore");
+            alert("✅ Post successfully ho gayi!");
+            document.getElementById('postContent').value = "";
+            closeModal();
+            loadFeed();   // Force refresh feed
+        } catch(e) {
+            console.error("Firestore Save Error:", e);
+            alert("Post save mein error: " + e.message);
+        } finally {
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }
+    }
+
+    function renderPost(p, id) {
+        const hasLiked = p.likes && p.likes.includes(auth.currentUser ? auth.currentUser.uid : '');
+        const isVideo = p.media && (p.media.endsWith('.mp4') || p.media.endsWith('.mov') || p.media.includes('video'));
+
+        return `
+            <div class="ekta-card p-4" data-aos="fade-up">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="flex items-center gap-3">
+                        <img src="${p.uPic}" class="w-9 h-9 rounded-full border border-yellow-500 object-cover">
+                        <div>
+                            <p class="font-bold text-xs">${p.uName}</p>
+                            <p class="text-[9px] text-gray-400">${p.time ? new Date(p.time.seconds*1000).toLocaleString() : 'Abhi'}</p>
+                        </div>
+                    </div>
+                    ${p.uid === (auth.currentUser ? auth.currentUser.uid : '') ? `<i onclick="deletePost('${id}')" class="fa fa-trash text-gray-300 hover:text-red-500 cursor-pointer text-xs"></i>` : ''}
+                </div>
+                ${p.text ? `<p class="text-sm text-slate-700 mb-3">${p.text}</p>` : ''}
+                ${p.media ? (isVideo ? `<video controls><source src="${p.media}" type="video/mp4"></video>` : `<img src="${p.media}" class="w-full rounded-2xl mb-3 border border-gray-100">`) : ''}
+                <div class="flex gap-6 pt-3 border-t text-gray-500 text-[11px] font-bold">
+                    <span onclick='toggleLike("${id}", ${JSON.stringify(p.likes || [])})' class="cursor-pointer ${hasLiked ? 'text-blue-600' : ''}">
+                        <i class="fa${hasLiked ? '-solid' : '-regular'} fa-thumbs-up"></i> ${p.likes ? p.likes.length : 0} LIKES
+                    </span>
+                    <span class="cursor-pointer"><i class="fa-regular fa-comment"></i> COMMENT</span>
+                </div>
+                <div id="cmts-${id}" class="mt-3"></div>
+                <div class="mt-3 flex gap-2">
+                    <input id="cmt-in-${id}" type="text" placeholder="Likho..." class="flex-1 bg-gray-50 rounded-full px-4 py-1.5 text-[11px] outline-none border">
+                    <button onclick="addComment('${id}')" class="text-yellow-700 font-bold text-[11px]">Send</button>
+                </div>
+            </div>
+        `;
+    }
+
+    function loadFeed() {
+        console.log("🔄 Loading feed...");
+        const feed = document.getElementById('feedArea');
+        feed.innerHTML = "<p class='text-center text-gray-500 py-10'>Posts load ho rahi hain...</p>";
+
+        db.collection("posts").orderBy("time", "desc").onSnapshot(snap => {
+            console.log("📡 Snapshot received, total posts:", snap.size);
+            feed.innerHTML = "";
+            if (snap.empty) {
+                feed.innerHTML = "<p class='text-center text-gray-400 py-10'>Abhi koi post nahi hai. Pehli post karo!</p>";
+                return;
+            }
+            snap.forEach(doc => {
+                feed.innerHTML += renderPost(doc.data(), doc.id);
+            });
+        }, (error) => {
+            console.error("❌ Feed Error:", error);
+            feed.innerHTML = "<p class='text-center text-red-500 py-10'>Feed load karne mein error aa raha hai.</p>";
+        });
+    }
+
+    // Baaki functions
+    async function toggleLike(pid, likes) {
+        if (!auth.currentUser) return;
+        const uid = auth.currentUser.uid;
+        let newLikes = likes.includes(uid) ? likes.filter(i => i !== uid) : [...likes, uid];
+        await db.collection("posts").doc(pid).update({ likes: newLikes });
+    }
+
+    async function addComment(pid) {
+        if (!auth.currentUser) return;
+        const inp = document.getElementById('cmt-in-'+pid);
+        if(!inp.value.trim()) return;
+        await db.collection("posts").doc(pid).collection("comments").add({
+            text: inp.value,
+            uName: auth.currentUser.displayName || "EKTA Member",
+            time: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        inp.value = "";
+    }
+
+    async function deletePost(id) {
+        if(confirm("Post delete karein?")) await db.collection("posts").doc(id).delete();
+    }
+
+    function loadUserPosts() {
+        if (!auth.currentUser) return;
+        db.collection("posts").where("uid", "==", auth.currentUser.uid).orderBy("time", "desc").get().then(snap => {
+            const container = document.getElementById('userPosts');
+            container.innerHTML = snap.empty ? "<p class='text-center text-gray-400 text-xs py-10'>Gallery khaali hai.</p>" : "";
+            snap.forEach(doc => container.innerHTML += renderPost(doc.data(), doc.id));
+        });
+    }
+
+    async function updateProfile() {
+        const user = auth.currentUser;
+        if(!user) return;
+        const nName = document.getElementById('newName').value.trim();
+        const nBio = document.getElementById('newBio').value.trim();
+        try {
+            if(nName) await user.updateProfile({ displayName: nName });
+            await db.collection("users").doc(user.uid).set({ bio: nBio, displayName: nName || user.displayName }, { merge: true });
+            location.reload();
+        } catch(e) { alert(e.message); }
+    }
+
+    function logout() {
+        if(confirm("Logout karna hai?")) {
+            auth.signOut().then(() => location.reload());
+        }
+    }
+
+    // Auth State - Strong & Direct Home
+    auth.onAuthStateChanged(async (user) => {
+        console.log("Auth changed:", user ? "Logged In" : "Logged Out");
+
+        if (user) {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+
+            const pic = user.photoURL || `https://via.placeholder.com/100/b38728/ffffff?text=${user.email ? user.email[0].toUpperCase() : 'E'}`;
+            document.getElementById('navUser').src = pic;
+            document.getElementById('feedAvatar').src = pic;
+            document.getElementById('profilePic').src = pic;
+            document.getElementById('dispName').innerText = user.displayName || "EKTA Member";
+
+            // Force load feed
+            setTimeout(loadFeed, 800);
+        } else {
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+        }
+    });
+</script>
+</body>
+</html>
