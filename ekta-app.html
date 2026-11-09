@@ -3662,6 +3662,11 @@
         .play-note b { color: #fcf6ba; }
         #momentsSection > .back-button, #reelsSection > .back-button, #connectSection > .back-button,
         #connectSection > .chat-bar, #momentsSection .moments-nav, #reelsSection .moments-nav { display: none !important; }
+            #connectSection .whatsapp-nav-bar { position: relative; bottom: auto; left: auto; transform: none !important; width: auto; max-width: none; margin: 0 0 14px; padding: 6px; border-radius: 22px; z-index: 1; opacity: 1 !important; justify-content: space-around; }
+        #connectSection .whatsapp-nav-item { flex: 1; justify-content: center; }
+        #connectSection .whatsapp-nav-item.active::before { top: 0; }
+        .meta-ai-button { bottom: 172px; width: 54px; height: 54px; right: 25px; }
+        .fab { bottom: 96px; }
     </style>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -3708,7 +3713,7 @@
                 <button class="hamburger-menu" onclick="toggleHamburgerMenu()">
                     <i class="fa-solid fa-bars"></i>
                 </button>
-                <div class="header-brand" onclick="showSection('homeSection')">
+                <div class="header-brand" onclick="showSection('connectSection')">
                     <div class="brand-name">Ekta</div>
                     <div class="brand-tagline">Unity is Strength</div>
                 </div>
@@ -3720,50 +3725,14 @@
             </div>
         </div>
         
-        <!-- Home Section -->
-        <div class="section active" id="homeSection">
-            <div class="home-hero">
-                <div class="home-greet">Welcome back,</div>
-                <div class="home-name" id="homeName">Ekta Member</div>
-                <div class="home-sub">Ek app, chaar duniya &mdash; sab kuch yahin</div>
-            </div>
-            <div class="home-grid">
-                <div class="home-tile" onclick="showSection('connectSection')">
-                    <i class="fa-solid fa-comments"></i>
-                    <div class="home-tile-title">Connect</div>
-                    <div class="home-tile-desc">Chats, groups &amp; calls</div>
-                </div>
-                <div class="home-tile" onclick="showSection('momentsSection')">
-                    <i class="fa-solid fa-images"></i>
-                    <div class="home-tile-title">Moments</div>
-                    <div class="home-tile-desc">Posts, photos &amp; polls</div>
-                </div>
-                <div class="home-tile" onclick="showSection('reelsSection')">
-                    <i class="fa-solid fa-clapperboard"></i>
-                    <div class="home-tile-title">Reels</div>
-                    <div class="home-tile-desc">Short videos</div>
-                </div>
-                <div class="home-tile" onclick="showSection('playSection')">
-                    <i class="fa-solid fa-trophy"></i>
-                    <div class="home-tile-title">Play</div>
-                    <div class="home-tile-desc">Live scores</div>
-                </div>
-            </div>
-            <div class="home-block-title">Latest Moments <span onclick="showSection('momentsSection')">See all</span></div>
-            <div id="homeMoments"></div>
-            <div class="home-block-title">Live Scores <span onclick="showSection('playSection')">See all</span></div>
-            <div id="homeScores"></div>
-        </div>
-        
         <!-- Connect Section - WhatsApp 2026 Style -->
-        <div class="section" id="connectSection">
+        <div class="section active" id="connectSection">
             <button class="back-button" onclick="goBack(event)">
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
             <div class="connect-section">
                 <div class="connect-header">
                     <div class="connect-header-left">
-                        <i class="fa-solid fa-arrow-left connect-back" onclick="showSection('homeSection')"></i>
                         <div class="connect-header-title">Connect</div>
                     </div>
                     <div class="connect-header-icons">
@@ -3771,6 +3740,20 @@
                         <i class="fa-solid fa-ellipsis-vertical" onclick="showMenu()"></i>
                     </div>
                 </div>
+            <div class="whatsapp-nav-bar">
+                <div class="whatsapp-nav-item active" onclick="showWhatsAppTab('chats')">
+                    <i class="fa-solid fa-comments whatsapp-nav-icon"></i>
+                    <span class="whatsapp-nav-label">Chats</span>
+                </div>
+                <div class="whatsapp-nav-item" onclick="showWhatsAppTab('calls')">
+                    <i class="fa-solid fa-phone whatsapp-nav-icon"></i>
+                    <span class="whatsapp-nav-label">Calls</span>
+                </div>
+                <div class="whatsapp-nav-item" onclick="showWhatsAppTab('updated')">
+                    <i class="fa-solid fa-circle-nodes whatsapp-nav-icon"></i>
+                    <span class="whatsapp-nav-label">Updated</span>
+                </div>
+            </div>
                 
                 <!-- Search Bar -->
                 <div class="connect-search-bar">
@@ -3930,20 +3913,7 @@
             </div>
             
             <!-- WhatsApp 2026 Floating Navigation Bar -->
-            <div class="whatsapp-nav-bar">
-                <div class="whatsapp-nav-item active" onclick="showWhatsAppTab('chats')">
-                    <i class="fa-solid fa-comments whatsapp-nav-icon"></i>
-                    <span class="whatsapp-nav-label">Chats</span>
-                </div>
-                <div class="whatsapp-nav-item" onclick="showWhatsAppTab('calls')">
-                    <i class="fa-solid fa-phone whatsapp-nav-icon"></i>
-                    <span class="whatsapp-nav-label">Calls</span>
-                </div>
-                <div class="whatsapp-nav-item" onclick="showWhatsAppTab('updated')">
-                    <i class="fa-solid fa-circle-nodes whatsapp-nav-icon"></i>
-                    <span class="whatsapp-nav-label">Updated</span>
-                </div>
-            </div>
+
             
             <!-- Meta AI Button -->
             <button class="meta-ai-button" onclick="openMetaAI()">
@@ -6067,7 +6037,7 @@
             if (REQUIRE_LOGIN) return;
             document.body.classList.remove('logged-out');
             document.body.classList.add('logged-in', 'guest');
-            if (!document.querySelector('.section.active')) showSection('homeSection');
+            if (!document.querySelector('.section.active')) showSection('connectSection');
         }
         function myPic() { return (me() && me().photoURL) || userProfile.photoURL || ''; }
 
@@ -6174,7 +6144,7 @@
                 if (myPostsUnsub) { myPostsUnsub(); myPostsUnsub = null; }
                 refreshUserUI();
                 if (!postsUnsub) listenPosts();
-                showSection('homeSection');
+                showSection('connectSection');
                 openSharedPost();
             } else {
                 document.body.classList.remove('logged-in');
@@ -6198,13 +6168,12 @@
                 myPosts.forEach(p => watchCommentCount(p.id));
                 renderProfile();
             }, err => console.error(err));
-            showSection('homeSection');
+            showSection('connectSection');
             openSharedPost();
         }
 
         function refreshUserUI() {
             const name = myName();
-            document.getElementById('homeName').textContent = name;
             const ca = document.getElementById('composerAvatar');
             if (ca) ca.innerHTML = avatarHtml(name, myPic());
             renderProfile();
@@ -6680,7 +6649,7 @@
         function confirmLogout() {
             const s = document.getElementById('logoutSection');
             if (s) s.remove();
-            if (!me()) { showSection('homeSection'); openLogin(); return; }
+            if (!me()) { showSection('connectSection'); openLogin(); return; }
             auth.signOut().then(() => showToast('Logout ho gaye'));
         }
 
@@ -6767,7 +6736,8 @@
 
         // ---------- Navigation ----------
         const MAIN_TABS = ['connectSection', 'momentsSection', 'reelsSection', 'playSection'];
-        const NAV_TABS = ['homeSection', 'momentsSection', 'reelsSection', 'playSection'];
+        const NAV_TABS = MAIN_TABS;
+        (function () { const ai = document.querySelector('.meta-ai-button'); if (ai) document.body.appendChild(ai); })();
 
         function showSection(sectionId) {
             document.querySelectorAll('.section').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
@@ -6786,7 +6756,6 @@
             lastScrollTop = 0;
             if (sectionId === 'reelsSection') renderReels(); else pauseAllReels();
             if (sectionId === 'playSection') loadScores();
-            if (sectionId === 'homeSection') loadHomeScores();
             if (sectionId === 'profileSection') renderProfile();
         }
 
@@ -6794,14 +6763,14 @@
             if (event) event.stopPropagation();
             const cur = document.querySelector('.section.active');
             const id = cur ? cur.id : '';
-            const permanent = ['homeSection', 'connectSection', 'momentsSection', 'reelsSection', 'playSection', 'groupsSection', 'statusSection', 'profileSection', 'whatsappNewSection'];
+            const permanent = ['connectSection', 'momentsSection', 'reelsSection', 'playSection', 'groupsSection', 'statusSection', 'profileSection', 'whatsappNewSection'];
             const parentMap = {
-                chatSection: 'connectSection', callSection: 'connectSection', groupsSection: 'connectSection', statusSection: 'connectSection',
+                chatSection: 'connectSection', callSection: 'connectSection', groupsSection: 'connectSection', playSection: 'connectSection', statusSection: 'connectSection',
                 whatsappNewSection: 'connectSection', aiSection: 'connectSection', cameraSection: 'connectSection', emojiSection: 'connectSection', fileSection: 'connectSection',
                 groupCreateSection: 'groupsSection', groupChatSection: 'groupsSection', statusCreateSection: 'statusSection', statusViewSection: 'statusSection',
                 momentCreateSection: 'momentsSection', profileEditSection: 'profileSection', shareProfileSection: 'profileSection'
             };
-            let parent = parentMap[id] || 'homeSection';
+            let parent = parentMap[id] || 'connectSection';
             if (id === 'momentCommentsSection') {
                 parent = commentsReturnTo;
                 if (commentsUnsub) { commentsUnsub(); commentsUnsub = null; }
