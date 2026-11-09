@@ -6019,6 +6019,7 @@
         const EMAILJS_TEMPLATE = "template_slzkovp";
         emailjs.init("7qwb9fukJ15J0p2VS");
 
+        const REQUIRE_LOGIN = false;
         let authMode = 'login';
         let generatedOTP = '';
         let userProfile = {};
@@ -6045,7 +6046,12 @@
             return d.toLocaleDateString();
         }
         function me() { return auth.currentUser; }
-        function myName() { return (me() && me().displayName) || userProfile.displayName || 'Ekta Member'; }
+        function myName() { return (me() && me().displayName) || userProfile.displayName || (me() ? 'Ekta Member' : 'Guest'); }
+        function needLogin() {
+            if (me()) return false;
+            showToast('Ye feature login ke baad chalega (login jald aa raha hai)');
+            return true;
+        }
         function myPic() { return (me() && me().photoURL) || userProfile.photoURL || ''; }
 
         // ---------- Auth ----------
@@ -6142,6 +6148,13 @@
                 document.body.classList.remove('logged-out');
                 document.body.classList.add('logged-in');
                 onUserReady(user);
+            } else if (!REQUIRE_LOGIN) {
+                document.body.classList.remove('logged-out');
+                document.body.classList.add('logged-in', 'guest');
+                userProfile = {};
+                refreshUserUI();
+                if (!postsUnsub) listenPosts();
+                showSection('homeSection');
             } else {
                 document.body.classList.remove('logged-in');
                 document.body.classList.add('logged-out');
@@ -6265,6 +6278,7 @@
 
         // ---------- Create Moment ----------
         function createMoment() {
+            if (needLogin()) return;
             document.querySelectorAll('.section').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
             const old = document.getElementById('momentCreateSection');
             if (old) old.remove();
@@ -6358,6 +6372,7 @@
 
         // ---------- Like / Comment / Share / Save / Delete / Poll ----------
         async function likeMoment(id) {
+            if (needLogin()) return;
             if (!me()) return;
             const p = allPosts.find(x => x.id === id);
             const liked = p && (p.likes || []).includes(me().uid);
@@ -6410,6 +6425,7 @@
         }
 
         async function sendMomentComment() {
+            if (needLogin()) return;
             const sec = document.getElementById('momentCommentsSection');
             const input = document.getElementById('momentCommentInput');
             if (!sec || !input || !input.value.trim() || !me()) return;
@@ -6446,6 +6462,7 @@
         }
 
         async function votePoll(postId, idx) {
+            if (needLogin()) return;
             if (!me()) return;
             const uid = me().uid;
             const ref = db.collection('posts').doc(postId);
@@ -6504,6 +6521,7 @@
         function pauseAllReels() { document.querySelectorAll('#reelsFeed video').forEach(v => v.pause()); }
 
         function createReel() {
+            if (needLogin()) return;
             const input = document.createElement('input');
             input.type = 'file';
             input.accept = 'video/*';
@@ -6530,12 +6548,13 @@
         // ---------- Profile ----------
         function renderProfile() {
             const sec = document.getElementById('profileSection');
-            if (!sec || !me()) return;
+            if (!sec) return;
             const name = myName();
-            const mine = allPosts.filter(p => p.uid === me().uid);
+            const uid = me() ? me().uid : null;
+            const mine = uid ? allPosts.filter(p => p.uid === uid) : [];
             document.getElementById('profileAvatar').innerHTML = avatarHtml(name, myPic());
             document.getElementById('profileName').textContent = name;
-            document.getElementById('profileUsername').textContent = '@' + (userProfile.username || (me().email || 'ekta').split('@')[0]);
+            document.getElementById('profileUsername').textContent = '@' + (userProfile.username || ((me() && me().email) || 'guest').split('@')[0]);
             document.getElementById('profileBio').textContent = userProfile.bio || 'Ekta hi shakti hai';
             document.getElementById('statPosts').textContent = mine.filter(p => !isReel(p)).length;
             document.getElementById('statReels').textContent = mine.filter(isReel).length;
@@ -6545,6 +6564,7 @@
         }
 
         function editProfile() {
+            if (needLogin()) return;
             document.querySelectorAll('.section').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
             window._newProfilePic = null;
             const sec = document.createElement('div');
