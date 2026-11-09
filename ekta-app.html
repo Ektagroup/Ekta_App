@@ -3565,9 +3565,136 @@
         .connect-search-bar input::placeholder {
             color: #94a3b8;
         }
+    
+        /* ===== Ekta Core (auth, home, feed, reels, play) ===== */
+        body.auth-pending .container, body.auth-pending #defaultNav, body.auth-pending .fab,
+        body.logged-out .container, body.logged-out #defaultNav, body.logged-out .fab { display: none !important; }
+        .auth-screen { display: none; position: fixed; inset: 0; z-index: 5000; align-items: center; justify-content: center; padding: 20px; }
+        body.logged-out .auth-screen { display: flex; }
+        .auth-card { width: 100%; max-width: 380px; background: rgba(20, 20, 30, 0.85); border: 1px solid rgba(179, 135, 40, 0.35); border-radius: 28px; padding: 40px 28px; backdrop-filter: blur(20px); box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(179,135,40,0.12); text-align: center; animation: authIn .6s ease; }
+        @keyframes authIn { from { opacity: 0; transform: translateY(30px) scale(.97); } to { opacity: 1; transform: none; } }
+        .auth-logo { font-family: 'Dancing Script', cursive; font-size: 56px; background: linear-gradient(90deg, #bf953f, #fcf6ba, #b38728, #fcf6ba, #bf953f); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 4s linear infinite; }
+        @keyframes shine { to { background-position: 200% center; } }
+        .auth-tagline { color: #94a3b8; letter-spacing: 3px; font-size: 12px; text-transform: uppercase; margin-bottom: 28px; }
+        .auth-tabs { display: flex; background: rgba(255,255,255,0.05); border-radius: 14px; padding: 4px; margin-bottom: 18px; }
+        .auth-tab { flex: 1; padding: 10px; border: none; background: none; color: #94a3b8; font: 600 14px 'Outfit', sans-serif; border-radius: 10px; cursor: pointer; transition: all .3s; }
+        .auth-tab.active { background: linear-gradient(135deg, #bf953f, #aa771c); color: #000; }
+        .auth-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(179,135,40,0.2); border-radius: 14px; padding: 14px 16px; color: #fff; font: 15px 'Outfit', sans-serif; outline: none; margin-top: 12px; transition: .3s; }
+        .auth-input:focus { border-color: #bf953f; background: rgba(255,255,255,0.08); }
+        .auth-input.otp { text-align: center; letter-spacing: 12px; font-size: 22px; font-weight: 700; }
+        .auth-btn { width: 100%; margin-top: 22px; padding: 15px; border: none; border-radius: 14px; background: linear-gradient(135deg, #bf953f 0%, #aa771c 100%); color: #000; font: 700 15px 'Outfit', sans-serif; letter-spacing: 1px; cursor: pointer; box-shadow: 0 8px 25px rgba(179,135,40,0.35); transition: .3s; }
+        .auth-btn:active { transform: scale(.97); }
+        .auth-btn:disabled { opacity: .6; cursor: not-allowed; }
+        .auth-link { margin-top: 16px; font-size: 13px; color: #bf953f; cursor: pointer; }
+        .auth-note { color: #cbd5e1; font-size: 14px; }
+        .ekta-loader { display: none; position: fixed; inset: 0; z-index: 6000; align-items: center; justify-content: center; background: rgba(8,8,16,0.6); backdrop-filter: blur(4px); }
+        body.auth-pending .ekta-loader, .ekta-loader.show { display: flex; }
+        .ekta-spinner { width: 54px; height: 54px; border-radius: 50%; border: 4px solid rgba(179,135,40,0.2); border-top-color: #bf953f; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        #defaultNav { transition: transform .45s cubic-bezier(.4,0,.2,1), opacity .45s; }
+        #defaultNav.nav-hidden { transform: translate(-50%, 110%) !important; opacity: 0 !important; pointer-events: none; }
+        .header-brand { cursor: pointer; }
+        .connect-header-left { display: flex; align-items: center; gap: 14px; }
+        .connect-back { color: #bf953f; font-size: 20px; cursor: pointer; }
+
+        /* Home */
+        #homeSection { padding: 20px 16px 110px; }
+        .home-hero { background: linear-gradient(135deg, rgba(191,149,63,0.18), rgba(124,58,237,0.12)); border: 1px solid rgba(179,135,40,0.3); border-radius: 24px; padding: 24px; margin-bottom: 20px; position: relative; overflow: hidden; animation: authIn .6s ease; }
+        .home-greet { color: #94a3b8; font-size: 14px; }
+        .home-name { font-size: 26px; font-weight: 800; color: #fcf6ba; margin: 4px 0; }
+        .home-sub { color: #cbd5e1; font-size: 14px; }
+        .home-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 26px; }
+        .home-tile { background: rgba(30,30,40,0.9); border: 1px solid rgba(179,135,40,0.25); border-radius: 22px; padding: 20px 16px; cursor: pointer; transition: all .3s; animation: authIn .6s ease both; }
+        .home-tile:nth-child(2) { animation-delay: .08s; } .home-tile:nth-child(3) { animation-delay: .16s; } .home-tile:nth-child(4) { animation-delay: .24s; }
+        .home-tile:hover, .home-tile:active { transform: translateY(-4px); border-color: #bf953f; box-shadow: 0 10px 30px rgba(179,135,40,0.25); }
+        .home-tile i { font-size: 28px; width: 56px; height: 56px; border-radius: 18px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #bf953f, #aa771c); color: #000; margin-bottom: 12px; }
+        .home-tile-title { font-weight: 700; font-size: 17px; }
+        .home-tile-desc { color: #94a3b8; font-size: 12px; margin-top: 2px; }
+        .home-block-title { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 18px; margin: 6px 0 12px; }
+        .home-block-title span { color: #bf953f; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+        /* Feed (Moments) */
+        .fb-composer { display: flex; align-items: center; gap: 12px; background: rgba(30,30,40,0.9); border: 1px solid rgba(179,135,40,0.25); border-radius: 18px; padding: 12px 14px; margin-bottom: 18px; cursor: pointer; }
+        .fb-composer-input { flex: 1; background: rgba(255,255,255,0.06); border-radius: 22px; padding: 10px 16px; color: #94a3b8; font-size: 14px; }
+        .fb-composer > i { color: #4ade80; font-size: 22px; }
+        .ekta-avatar { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, #bf953f 0%, #d4a574 100%); color: #000; font-weight: 700; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .ekta-avatar img, .polaroid-avatar img, .profile-avatar img, .reel-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .polaroid-media { width: 100%; border-radius: 10px; margin-bottom: 15px; display: block; max-height: 480px; object-fit: cover; background: #000; }
+        .polaroid-delete { margin-left: 8px; color: #64748b; cursor: pointer; padding: 6px; }
+        .polaroid-delete:hover { color: #ef4444; }
+        .polaroid-action.saved { color: #bf953f; }
+        .poll-option .poll-bar { position: absolute; inset: 0; background: rgba(179,135,40,0.18); border-radius: inherit; transform-origin: left; z-index: 0; }
+        .poll-option { position: relative; overflow: hidden; }
+        .poll-option > *:not(.poll-bar) { position: relative; z-index: 1; }
+        .feed-empty { text-align: center; color: #94a3b8; padding: 40px 10px; }
+        .feed-empty i { font-size: 40px; color: #bf953f; display: block; margin-bottom: 10px; }
+        .comment-item { background: rgba(255,255,255,0.05); border-radius: 14px; padding: 10px 12px; margin-bottom: 10px; display: flex; gap: 10px; }
+        .comment-item b { color: #fcf6ba; font-size: 13px; }
+        .comment-item p { color: #cbd5e1; font-size: 14px; margin-top: 2px; word-break: break-word; }
+
+        /* Reels */
+        .reel-add-btn { background: linear-gradient(135deg, #bf953f 0%, #aa771c 100%); color: #000; border: none; padding: 8px 18px; border-radius: 20px; font-weight: 600; cursor: pointer; }
+        .reel-video video { width: 100%; height: 100%; object-fit: cover; background: #000; }
+        .reel-video { position: relative; overflow: hidden; }
+        .reel-action.liked { color: #e53e3e; }
+        .reel-mute { position: absolute; right: 12px; bottom: 12px; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.55); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 15px; cursor: pointer; }
+
+        /* Play */
+        #playSection { padding: 20px 16px 110px; }
+        .play-title { font-size: 28px; font-weight: 800; color: #bf953f; }
+        .play-sub { color: #94a3b8; font-size: 14px; margin-bottom: 16px; }
+        .play-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 16px; scrollbar-width: none; }
+        .play-tabs::-webkit-scrollbar { display: none; }
+        .play-chip { flex-shrink: 0; padding: 8px 16px; border-radius: 20px; border: 1px solid rgba(179,135,40,0.35); background: rgba(30,30,40,0.9); color: #cbd5e1; font: 600 13px 'Outfit', sans-serif; cursor: pointer; transition: .3s; }
+        .play-chip.active { background: linear-gradient(135deg, #bf953f, #aa771c); color: #000; border-color: transparent; }
+        .score-card { background: rgba(30,30,40,0.9); border: 1px solid rgba(179,135,40,0.25); border-radius: 18px; padding: 14px 16px; margin-bottom: 12px; animation: authIn .4s ease both; }
+        .score-meta { display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8; margin-bottom: 10px; gap: 10px; }
+        .score-live { color: #ef4444; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; }
+        .score-live::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #ef4444; animation: pulse 1.2s infinite; }
+        @keyframes pulse { 50% { opacity: .3; } }
+        .score-team { display: flex; align-items: center; gap: 10px; padding: 5px 0; }
+        .score-team img { width: 26px; height: 26px; object-fit: contain; }
+        .score-team-name { flex: 1; font-weight: 600; font-size: 15px; }
+        .score-team-score { font-weight: 800; font-size: 16px; color: #fcf6ba; }
+        .score-team.winner .score-team-name { color: #fcf6ba; }
+        .play-note { margin-top: 18px; background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.35); border-radius: 16px; padding: 14px; color: #cbd5e1; font-size: 13px; }
+        .play-note b { color: #fcf6ba; }
+        #momentsSection > .back-button, #reelsSection > .back-button, #connectSection > .back-button,
+        #connectSection > .chat-bar, #momentsSection .moments-nav, #reelsSection .moments-nav { display: none !important; }
     </style>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
-<body>
+<body class="auth-pending">
+    <!-- Auth Screen -->
+    <div id="authScreen" class="auth-screen">
+        <div class="auth-card">
+            <div class="auth-logo">Ekta</div>
+            <div class="auth-tagline">Unity is Strength</div>
+            <div class="auth-tabs" id="authTabs">
+                <button id="loginTab" class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+                <button id="signupTab" class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
+            </div>
+            <div id="authForm">
+                <input id="authName" class="auth-input" type="text" placeholder="Aapka naam" style="display:none">
+                <input id="authEmail" class="auth-input" type="email" placeholder="Email address" autocomplete="email">
+                <input id="authPass" class="auth-input" type="password" placeholder="Password" autocomplete="current-password">
+                <button id="authBtn" class="auth-btn" onclick="handleAuth()">Login</button>
+                <div class="auth-link" id="forgotLink" onclick="forgotPassword()">Password bhool gaye?</div>
+            </div>
+            <div id="otpBox" style="display:none">
+                <p class="auth-note">Aapke email par 6 digit ka OTP bheja gaya hai</p>
+                <input id="otpInput" class="auth-input otp" maxlength="6" inputmode="numeric" placeholder="------">
+                <button id="verifyBtn" class="auth-btn" onclick="confirmOTP()">Verify &amp; Join</button>
+                <div class="auth-link" onclick="resetAuthForm()">Wapas jaayein</div>
+            </div>
+        </div>
+    </div>
+    <div id="ektaLoader" class="ekta-loader"><div class="ekta-spinner"></div></div>
+
     <!-- Animated Background Orbs -->
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
@@ -3580,7 +3707,7 @@
                 <button class="hamburger-menu" onclick="toggleHamburgerMenu()">
                     <i class="fa-solid fa-bars"></i>
                 </button>
-                <div class="header-brand">
+                <div class="header-brand" onclick="showSection('homeSection')">
                     <div class="brand-name">Ekta</div>
                     <div class="brand-tagline">Unity is Strength</div>
                 </div>
@@ -3592,15 +3719,51 @@
             </div>
         </div>
         
+        <!-- Home Section -->
+        <div class="section active" id="homeSection">
+            <div class="home-hero">
+                <div class="home-greet">Welcome back,</div>
+                <div class="home-name" id="homeName">Ekta Member</div>
+                <div class="home-sub">Ek app, chaar duniya &mdash; sab kuch yahin</div>
+            </div>
+            <div class="home-grid">
+                <div class="home-tile" onclick="showSection('connectSection')">
+                    <i class="fa-solid fa-comments"></i>
+                    <div class="home-tile-title">Connect</div>
+                    <div class="home-tile-desc">Chats, groups &amp; calls</div>
+                </div>
+                <div class="home-tile" onclick="showSection('momentsSection')">
+                    <i class="fa-solid fa-images"></i>
+                    <div class="home-tile-title">Moments</div>
+                    <div class="home-tile-desc">Posts, photos &amp; polls</div>
+                </div>
+                <div class="home-tile" onclick="showSection('reelsSection')">
+                    <i class="fa-solid fa-clapperboard"></i>
+                    <div class="home-tile-title">Reels</div>
+                    <div class="home-tile-desc">Short videos</div>
+                </div>
+                <div class="home-tile" onclick="showSection('playSection')">
+                    <i class="fa-solid fa-trophy"></i>
+                    <div class="home-tile-title">Play</div>
+                    <div class="home-tile-desc">Live scores</div>
+                </div>
+            </div>
+            <div class="home-block-title">Latest Moments <span onclick="showSection('momentsSection')">See all</span></div>
+            <div id="homeMoments"></div>
+            <div class="home-block-title">Live Scores <span onclick="showSection('playSection')">See all</span></div>
+            <div id="homeScores"></div>
+        </div>
+        
         <!-- Connect Section - WhatsApp 2026 Style -->
-        <div class="section active" id="connectSection">
+        <div class="section" id="connectSection">
             <button class="back-button" onclick="goBack(event)">
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
             <div class="connect-section">
                 <div class="connect-header">
                     <div class="connect-header-left">
-                        <div class="connect-header-title">Ekta</div>
+                        <i class="fa-solid fa-arrow-left connect-back" onclick="showSection('homeSection')"></i>
+                        <div class="connect-header-title">Connect</div>
                     </div>
                     <div class="connect-header-icons">
                         <i class="fa-solid fa-camera" onclick="openCamera()"></i>
@@ -3813,101 +3976,16 @@
                     </div>
                     <button style="background:linear-gradient(135deg, #bf953f 0%, #aa771c 100%);color:#000;border:none;padding:10px 25px;border-radius:25px;font-weight:600;cursor:pointer;box-shadow:0 5px 20px rgba(179,135,40,0.3);" onclick="createMoment()">+ Create</button>
                 </div>
+                <div class="fb-composer" onclick="createMoment()">
+                    <div class="ekta-avatar" id="composerAvatar">E</div>
+                    <div class="fb-composer-input">Kya chal raha hai?</div>
+                    <i class="fa-solid fa-images"></i>
+                </div>
+                <div id="momentsFeed"><div class="feed-empty"><div class="ekta-spinner" style="margin:0 auto"></div></div></div>
                 
                 <!-- Polaroid Card 1 -->
-                <div class="polaroid-card">
-                    <div class="polaroid-header">
-                        <div class="polaroid-avatar verified">S</div>
-                        <div class="polaroid-info">
-                            <div class="polaroid-name">
-                                Shakil
-                                <i class="fa-solid fa-circle-check" style="color:#2196f3;font-size:14px;"></i>
-                            </div>
-                            <div class="polaroid-time">2 hours ago</div>
-                        </div>
-                        <div class="polaroid-type">🎉 Celebration</div>
-                    </div>
-                    <div class="polaroid-content">
-                        <div class="polaroid-text">
-                            Had an amazing day with the family! Grateful for all the support and love. This community means everything to me! 💕
-                        </div>
-                        <div class="polaroid-image">🏠</div>
-                    </div>
-                    <div class="polaroid-actions">
-                        <div class="polaroid-action-group">
-                            <div class="polaroid-action" onclick="likeMoment('moment1')">
-                                <i class="fa-solid fa-heart"></i>
-                                <span>24</span>
-                            </div>
-                            <div class="polaroid-action" onclick="commentMoment('moment1')">
-                                <i class="fa-regular fa-comment"></i>
-                                <span>8</span>
-                            </div>
-                            <div class="polaroid-action" onclick="shareMoment('moment1')">
-                                <i class="fa-regular fa-paper-plane"></i>
-                                <span>Share</span>
-                            </div>
-                        </div>
-                        <div class="polaroid-action" onclick="saveMoment('moment1')">
-                            <i class="fa-regular fa-bookmark"></i>
-                        </div>
-                    </div>
-                </div>
-                
                 <!-- Polaroid Card 2 - Poll -->
-                <div class="polaroid-card">
-                    <div class="polaroid-header">
-                        <div class="polaroid-avatar">M</div>
-                        <div class="polaroid-info">
-                            <div class="polaroid-name">Mohammed</div>
-                            <div class="polaroid-time">5 hours ago</div>
-                        </div>
-                        <div class="polaroid-type">📊 Poll</div>
-                    </div>
-                    <div class="polaroid-content">
-                        <div class="polaroid-text">
-                            Weekend plans? Let's vote! 🗳️
-                        </div>
-                        <div class="polaroid-poll">
-                            <div class="poll-question">What should we do this weekend?</div>
-                            <div class="poll-option selected" onclick="votePoll('poll1', 'option1')">
-                                <div class="poll-radio"></div>
-                                <div class="poll-text">Movie Night 🍿</div>
-                                <div class="poll-votes">12 votes</div>
-                            </div>
-                            <div class="poll-option" onclick="votePoll('poll1', 'option2')">
-                                <div class="poll-radio"></div>
-                                <div class="poll-text">Outdoor Adventure 🏃</div>
-                                <div class="poll-votes">8 votes</div>
-                            </div>
-                            <div class="poll-option" onclick="votePoll('poll1', 'option3')">
-                                <div class="poll-radio"></div>
-                                <div class="poll-text">Stay Home & Relax 😴</div>
-                                <div class="poll-votes">5 votes</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="polaroid-actions">
-                        <div class="polaroid-action-group">
-                            <div class="polaroid-action" onclick="likeMoment('moment2')">
-                                <i class="fa-solid fa-heart"></i>
-                                <span>18</span>
-                            </div>
-                            <div class="polaroid-action" onclick="commentMoment('moment2')">
-                                <i class="fa-regular fa-comment"></i>
-                                <span>15</span>
-                            </div>
-                            <div class="polaroid-action" onclick="shareMoment('moment2')">
-                                <i class="fa-regular fa-paper-plane"></i>
-                                <span>Share</span>
-                            </div>
-                        </div>
-                        <div class="polaroid-action" onclick="saveMoment('moment2')">
-                            <i class="fa-regular fa-bookmark"></i>
-                        </div>
-                    </div>
                 </div>
-            </div>
             
             <!-- Moments Bottom Navigation -->
             <div class="moments-nav">
@@ -3938,83 +4016,9 @@
             <div class="reels-section">
                 <div class="reels-header">
                     <div class="reels-title">Reels</div>
+                    <button class="reel-add-btn" onclick="createReel()"><i class="fa-solid fa-plus"></i> Reel</button>
                 </div>
-                <div class="reels-content">
-                    <div class="reel-item">
-                        <div class="reel-video">🎬</div>
-                        <div class="reel-info">
-                            <div class="reel-author">
-                                <div class="reel-avatar">S</div>
-                                <div class="reel-name">Shakil</div>
-                            </div>
-                            <div class="reel-caption">Amazing sunset views from the mountains! 🌅</div>
-                            <div class="reel-actions">
-                                <div class="reel-action">
-                                    <i class="fa-solid fa-heart"></i>
-                                    <span>1.2K</span>
-                                </div>
-                                <div class="reel-action">
-                                    <i class="fa-regular fa-comment"></i>
-                                    <span>89</span>
-                                </div>
-                                <div class="reel-action">
-                                    <i class="fa-regular fa-paper-plane"></i>
-                                    <span>Share</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="reel-item">
-                        <div class="reel-video">🎵</div>
-                        <div class="reel-info">
-                            <div class="reel-author">
-                                <div class="reel-avatar">M</div>
-                                <div class="reel-name">Mohammed</div>
-                            </div>
-                            <div class="reel-caption">New dance challenge! 💃 Can you do it? 🔥</div>
-                            <div class="reel-actions">
-                                <div class="reel-action">
-                                    <i class="fa-solid fa-heart"></i>
-                                    <span>3.4K</span>
-                                </div>
-                                <div class="reel-action">
-                                    <i class="fa-regular fa-comment"></i>
-                                    <span>156</span>
-                                </div>
-                                <div class="reel-action">
-                                    <i class="fa-regular fa-paper-plane"></i>
-                                    <span>Share</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="reel-item">
-                        <div class="reel-video">🍳</div>
-                        <div class="reel-info">
-                            <div class="reel-author">
-                                <div class="reel-avatar">A</div>
-                                <div class="reel-name">Ahmed</div>
-                            </div>
-                            <div class="reel-caption">Quick recipe for the perfect pasta! 🍝</div>
-                            <div class="reel-actions">
-                                <div class="reel-action">
-                                    <i class="fa-solid fa-heart"></i>
-                                    <span>2.1K</span>
-                                </div>
-                                <div class="reel-action">
-                                    <i class="fa-regular fa-comment"></i>
-                                    <span>234</span>
-                                </div>
-                                <div class="reel-action">
-                                    <i class="fa-regular fa-paper-plane"></i>
-                                    <span>Share</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="reels-content" id="reelsFeed"></div>
             </div>
             <!-- Reels Bottom Navigation -->
             <div class="moments-nav reels-nav" id="reelsNav">
@@ -4164,6 +4168,15 @@
             </div>
         </div>
         
+        <!-- Play Section -->
+        <div class="section" id="playSection">
+            <div class="play-title">Play</div>
+            <div class="play-sub">Live scores &mdash; duniya bhar ke games</div>
+            <div class="play-tabs" id="playTabs"></div>
+            <div id="playScores"></div>
+            <div class="play-note"><b>Live streaming jald aa raha hai.</b> Sirf official aur licensed streams dikhaye jayenge.</div>
+        </div>
+        
         <!-- Profile Section -->
         <div class="section" id="profileSection">
             <button class="back-button" onclick="goBack(event)">
@@ -4171,26 +4184,23 @@
             </button>
             <div class="profile-section">
                 <div class="profile-card">
-                    <div class="profile-avatar verified">M</div>
-                    <div class="profile-name">
-                        Mohammed Shakil
-                        <i class="fa-solid fa-circle-check" style="color:#2196f3;font-size:24px;"></i>
-                    </div>
-                    <div class="profile-username">@mohammed_shakil</div>
-                    <div class="profile-bio">Building the future, one line at a time 🚀<br>Love connecting with amazing people!</div>
+                    <div class="profile-avatar" id="profileAvatar">E</div>
+                    <div class="profile-name" id="profileName"></div>
+                    <div class="profile-username" id="profileUsername"></div>
+                    <div class="profile-bio" id="profileBio"></div>
                     
                     <div class="profile-stats">
                         <div class="stat-item">
-                            <div class="stat-num">1.2K</div>
+                            <div class="stat-num" id="statPosts">0</div>
                             <div class="stat-label">Posts</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-num">5.4K</div>
-                            <div class="stat-label">Followers</div>
+                            <div class="stat-num" id="statLikes">0</div>
+                            <div class="stat-label">Likes</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-num">892</div>
-                            <div class="stat-label">Following</div>
+                            <div class="stat-num" id="statReels">0</div>
+                            <div class="stat-label">Reels</div>
                         </div>
                     </div>
                     
@@ -4199,6 +4209,7 @@
                         <button class="profile-btn secondary" onclick="shareProfile()">Share Profile</button>
                     </div>
                 </div>
+                <div id="myMoments" style="margin-top:20px;"></div>
             </div>
         </div>
         
@@ -4272,7 +4283,7 @@
     
     <!-- Default Bottom Navigation -->
     <div class="default-nav" id="defaultNav">
-        <div class="default-nav-item active" onclick="showSection('connectSection')">
+        <div class="default-nav-item" onclick="showSection('connectSection')">
             <i class="fa-solid fa-comments default-nav-icon"></i>
             <span class="default-nav-label">Connect</span>
         </div>
@@ -4284,9 +4295,9 @@
             <i class="fa-solid fa-video default-nav-icon"></i>
             <span class="default-nav-label">Reels</span>
         </div>
-        <div class="default-nav-item" onclick="showSection('groupsSection')">
-            <i class="fa-solid fa-users default-nav-icon"></i>
-            <span class="default-nav-label">Groups</span>
+        <div class="default-nav-item" onclick="showSection('playSection')">
+            <i class="fa-solid fa-trophy default-nav-icon"></i>
+            <span class="default-nav-label">Play</span>
         </div>
     </div>
     
@@ -4298,6 +4309,36 @@
             <button class="modal-close" onclick="closeHamburgerMenu()">
                 <i class="fa-solid fa-xmark"></i>
             </button>
+        </div>
+        
+        <div class="modal-item" onclick="openProfile()">
+            <div class="modal-item-icon">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="modal-item-text">
+                <div class="modal-item-title">My Profile</div>
+                <div class="modal-item-subtitle">Posts, reels aur profile</div>
+            </div>
+        </div>
+        
+        <div class="modal-item" onclick="closeHamburgerMenu();showSection('groupsSection')">
+            <div class="modal-item-icon">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <div class="modal-item-text">
+                <div class="modal-item-title">Groups</div>
+                <div class="modal-item-subtitle">Chat aur post groups</div>
+            </div>
+        </div>
+        
+        <div class="modal-item" onclick="openPariwar()">
+            <div class="modal-item-icon">
+                <i class="fa-solid fa-people-roof"></i>
+            </div>
+            <div class="modal-item-text">
+                <div class="modal-item-title">Ekta Pariwar</div>
+                <div class="modal-item-subtitle">Family tree</div>
+            </div>
         </div>
         
         <div class="modal-item" onclick="showSettings()">
@@ -4352,92 +4393,6 @@
     </div>
     
     <script>
-        function showSection(sectionId) {
-            // Hide all sections
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-                section.style.display = 'none';
-            });
-            
-            // Show selected section
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-                targetSection.style.display = 'block';
-                currentSection = targetSection;
-            }
-            
-            // Update nav items
-            document.querySelectorAll('.default-nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Find and activate the clicked nav item
-            const navItems = document.querySelectorAll('.default-nav-item');
-            const sectionMap = {
-                'connectSection': 0,
-                'momentsSection': 1,
-                'reelsSection': 2,
-                'groupsSection': 3
-            };
-            
-            const index = sectionMap[sectionId];
-            if (index !== undefined && navItems[index]) {
-                navItems[index].classList.add('active');
-            }
-            
-            // Show/hide WhatsApp-specific elements based on section
-            const whatsappNav = document.querySelector('.whatsapp-nav-bar');
-            const chatBar = document.querySelector('.chat-bar');
-            const metaAiButton = document.querySelector('.meta-ai-button');
-            const momentsNav = document.querySelector('.moments-nav');
-            const reelsNav = document.querySelector('.reels-nav');
-            const defaultNav = document.getElementById('defaultNav');
-            
-            // Reset all navigation visibility
-            whatsappNav.classList.remove('nav-hidden');
-            chatBar.classList.remove('nav-hidden');
-            metaAiButton.classList.remove('nav-hidden');
-            defaultNav.classList.remove('nav-hidden');
-            if (momentsNav) momentsNav.classList.remove('nav-hidden');
-            if (reelsNav) reelsNav.classList.remove('nav-hidden');
-            
-            if (sectionId === 'connectSection') {
-                whatsappNav.style.display = 'flex';
-                chatBar.style.display = 'flex';
-                metaAiButton.style.display = 'flex';
-                momentsNav.style.display = 'none';
-                if (reelsNav) reelsNav.style.display = 'none';
-                defaultNav.style.display = 'flex';
-            } else if (sectionId === 'momentsSection') {
-                whatsappNav.style.display = 'none';
-                chatBar.style.display = 'none';
-                metaAiButton.style.display = 'none';
-                momentsNav.style.display = 'flex';
-                if (reelsNav) reelsNav.style.display = 'none';
-                defaultNav.style.display = 'flex';
-            } else if (sectionId === 'reelsSection') {
-                whatsappNav.style.display = 'none';
-                chatBar.style.display = 'none';
-                metaAiButton.style.display = 'none';
-                momentsNav.style.display = 'none';
-                if (reelsNav) reelsNav.style.display = 'flex';
-                defaultNav.style.display = 'flex';
-            } else {
-                whatsappNav.style.display = 'none';
-                chatBar.style.display = 'none';
-                metaAiButton.style.display = 'none';
-                momentsNav.style.display = 'none';
-                if (reelsNav) reelsNav.style.display = 'none';
-                defaultNav.style.display = 'none';
-            }
-            
-            // Reset scroll position for new section
-            if (targetSection) {
-                targetSection.scrollTop = 0;
-            }
-            lastScrollTop = 0;
-        }
         
         function navigateToSection(sectionId) {
             showSection(sectionId);
@@ -4452,33 +4407,6 @@
             showSection('connectSection');
         }
         
-        function goBack(event) {
-            if (event) event.stopPropagation();
-            const currentSection = document.querySelector('.section.active');
-            const permanentSections = ['connectSection','momentsSection','reelsSection','groupsSection','statusSection','profileSection','whatsappNewSection'];
-            const parentMap = {
-                'chatSection': 'connectSection',
-                'callSection': 'connectSection',
-                'momentCreateSection': 'momentsSection',
-                'groupCreateSection': 'groupsSection',
-                'groupChatSection': 'groupsSection',
-                'statusCreateSection': 'statusSection',
-                'statusViewSection': 'statusSection',
-                'profileEditSection': 'profileSection',
-                'shareProfileSection': 'profileSection',
-                'reelsSection': 'connectSection',
-                'groupsSection': 'connectSection',
-                'statusSection': 'connectSection',
-                'profileSection': 'connectSection'
-            };
-            if (currentSection && !permanentSections.includes(currentSection.id)) {
-                const parent = parentMap[currentSection.id] || 'connectSection';
-                currentSection.remove();
-                showSection(parent);
-            } else {
-                showSection('connectSection');
-            }
-        }
         
         function createNew() {
             showSection('whatsappNewSection');
@@ -4489,105 +4417,6 @@
         let isScrolling = false;
         let currentSection = null;
         
-        function initAutoHideNav() {
-            const connectSection = document.getElementById('connectSection');
-            const momentsSection = document.getElementById('momentsSection');
-            const reelsSection = document.getElementById('reelsSection');
-            const whatsappNav = document.querySelector('.whatsapp-nav-bar');
-            const chatBar = document.querySelector('.chat-bar');
-            const metaAiButton = document.querySelector('.meta-ai-button');
-            const defaultNav = document.getElementById('defaultNav');
-            const momentsNav = document.querySelector('.moments-nav');
-            const reelsNav = document.querySelector('.reels-nav');
-            
-            // Reset scroll positions
-            lastScrollTop = 0;
-            
-            if (connectSection) {
-                connectSection.addEventListener('scroll', function() {
-                    const scrollTop = this.scrollTop;
-                    
-                    if (scrollTop > lastScrollTop && scrollTop > 50) {
-                        // Scrolling down - hide navigation
-                        whatsappNav.classList.add('nav-hidden');
-                        chatBar.classList.add('nav-hidden');
-                        metaAiButton.classList.add('nav-hidden');
-                        defaultNav.classList.add('nav-hidden');
-                    } else if (scrollTop < lastScrollTop) {
-                        // Scrolling up - show navigation
-                        whatsappNav.classList.remove('nav-hidden');
-                        chatBar.classList.remove('nav-hidden');
-                        metaAiButton.classList.remove('nav-hidden');
-                        defaultNav.classList.remove('nav-hidden');
-                    }
-                    
-                    lastScrollTop = scrollTop;
-                });
-                
-                // Touch events for mobile
-                connectSection.addEventListener('touchstart', function() {
-                    isScrolling = true;
-                });
-                
-                connectSection.addEventListener('touchend', function() {
-                    isScrolling = false;
-                });
-            }
-            
-            if (momentsSection) {
-                momentsSection.addEventListener('scroll', function() {
-                    const scrollTop = this.scrollTop;
-                    
-                    if (scrollTop > lastScrollTop && scrollTop > 50) {
-                        // Scrolling down - hide navigation
-                        momentsNav.classList.add('nav-hidden');
-                        defaultNav.classList.add('nav-hidden');
-                    } else if (scrollTop < lastScrollTop) {
-                        // Scrolling up - show navigation
-                        momentsNav.classList.remove('nav-hidden');
-                        defaultNav.classList.remove('nav-hidden');
-                    }
-                    
-                    lastScrollTop = scrollTop;
-                });
-                
-                // Touch events for mobile
-                momentsSection.addEventListener('touchstart', function() {
-                    isScrolling = true;
-                });
-                
-                momentsSection.addEventListener('touchend', function() {
-                    isScrolling = false;
-                });
-            }
-            
-            if (reelsSection) {
-                reelsSection.addEventListener('scroll', function() {
-                    const scrollTop = this.scrollTop;
-                    
-                    if (scrollTop > lastScrollTop && scrollTop > 50) {
-                        // Scrolling down - hide navigation
-                        reelsNav.classList.add('nav-hidden');
-                        defaultNav.classList.add('nav-hidden');
-                    } else if (scrollTop < lastScrollTop) {
-                        // Scrolling up - show navigation
-                        reelsNav.classList.remove('nav-hidden');
-                        defaultNav.classList.remove('nav-hidden');
-                    }
-                    
-                    lastScrollTop = scrollTop;
-                });
-                
-                // Touch events for mobile
-                reelsSection.addEventListener('touchstart', function() {
-                    isScrolling = true;
-                });
-                
-                reelsSection.addEventListener('touchend', function() {
-                    isScrolling = false;
-                });
-            }
-        }
         
         // Initialize auto-hide on page load
         document.addEventListener('DOMContentLoaded', function() {
@@ -5178,13 +5007,13 @@
                 </button>
                 <div class="ai-section">
                     <div class="ai-header">
-                        <div class="ai-title">Meta AI</div>
+                        <div class="ai-title">Ekta AI</div>
                         <div class="ai-subtitle">Your AI assistant</div>
                     </div>
                     <div class="ai-content">
                         <div class="ai-messages" id="aiMessages">
                             <div class="ai-message ai-message-bot">
-                                <div class="ai-message-content">Hello! I'm Meta AI, your personal assistant. How can I help you today?</div>
+                                <div class="ai-message-content">Hello! I'm Ekta AI, your personal assistant. How can I help you today?</div>
                             </div>
                         </div>
                         <div class="ai-input-bar">
@@ -5244,134 +5073,8 @@
             }
         }
         
-        function createMoment() {
-            // Create moment creation interface
-            const momentSection = document.createElement('div');
-            momentSection.className = 'section active';
-            momentSection.id = 'momentCreateSection';
-            momentSection.innerHTML = `
-                <button class="back-button" onclick="goBack(event)">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <div class="moment-create-section">
-                    <div class="moment-create-header">
-                        <div class="moment-create-title">Create Moment</div>
-                    </div>
-                    <div class="moment-create-content">
-                        <div class="moment-input-group">
-                            <label>What's on your mind?</label>
-                            <textarea class="moment-textarea" placeholder="Share your thoughts..."></textarea>
-                        </div>
-                        <div class="moment-input-group">
-                            <label>Add Image/Video</label>
-                            <button class="moment-upload-btn" onclick="uploadMedia()">
-                                <i class="fa-solid fa-cloud-arrow-up"></i>
-                                <span>Upload Media</span>
-                            </button>
-                        </div>
-                        <div class="moment-input-group">
-                            <label>Poll Question (Optional)</label>
-                            <input type="text" class="moment-input" placeholder="Ask a question...">
-                        </div>
-                        <button class="moment-post-btn" onclick="postMoment()">Post Moment</button>
-                    </div>
-                </div>
-            `;
-            
-            // Hide all sections and show moment creation
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-                section.style.display = 'none';
-            });
-            
-            document.querySelector('.container').appendChild(momentSection);
-            momentSection.style.display = 'block';
-            
-            // Hide WhatsApp-specific elements
-            document.querySelector('.whatsapp-nav-bar').style.display = 'none';
-            document.querySelector('.chat-bar').style.display = 'none';
-            document.querySelector('.meta-ai-button').style.display = 'none';
-            document.querySelector('.moments-nav').style.display = 'none';
-        }
         
-        function uploadMedia() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*,video/*';
-            input.onchange = function() {
-                const file = input.files && input.files[0];
-                if (!file) return;
-                const url = URL.createObjectURL(file);
-                window._pendingMomentMedia = url;
-                const section = document.getElementById('momentCreateSection');
-                if (section) {
-                    let preview = document.getElementById('momentMediaPreview');
-                    if (!preview) {
-                        preview = document.createElement('div');
-                        preview.id = 'momentMediaPreview';
-                        preview.style.cssText = 'margin:10px 0;border-radius:12px;overflow:hidden;';
-                        const btn = section.querySelector('.moment-post-btn');
-                        section.querySelector('.moment-create-content').insertBefore(preview, btn);
-                    }
-                    preview.innerHTML = file.type.startsWith('video/')
-                        ? `<video src="${url}" controls style="width:100%;max-height:200px;border-radius:12px;"></video>`
-                        : `<img src="${url}" style="width:100%;max-height:200px;object-fit:cover;border-radius:12px;">`;
-                }
-                showToast('Media added to moment');
-            };
-            input.click();
-        }
         
-        function postMoment() {
-            const section = document.getElementById('momentCreateSection');
-            if (!section) return;
-            const text = section.querySelector('.moment-textarea').value.trim();
-            const pollQ = section.querySelector('.moment-input').value.trim();
-            if (!text && !pollQ && !window._pendingMomentMedia) {
-                showToast('Write something or add media first!');
-                return;
-            }
-            const feed = document.querySelector('#momentsSection .moments-section');
-            if (feed) {
-                const card = document.createElement('div');
-                card.className = 'polaroid-card';
-                const time = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-                const mediaHtml = window._pendingMomentMedia
-                    ? `<div class="polaroid-image"><img src="${window._pendingMomentMedia}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;"></div>`
-                    : (text ? `<div class="polaroid-image">✨</div>` : '');
-                const pollHtml = pollQ
-                    ? `<div class="polaroid-poll"><div class="poll-question">${esc(pollQ)}</div><div class="poll-option" onclick="votePoll('new','o1')"><div class="poll-radio"></div><div class="poll-text">Yes</div><div class="poll-votes">0 votes</div></div><div class="poll-option" onclick="votePoll('new','o2')"><div class="poll-radio"></div><div class="poll-text">No</div><div class="poll-votes">0 votes</div></div></div>`
-                    : '';
-                card.innerHTML = `
-                    <div class="polaroid-header">
-                        <div class="polaroid-avatar verified">M</div>
-                        <div class="polaroid-info">
-                            <div class="polaroid-name">You <i class="fa-solid fa-circle-check" style="color:#2196f3;font-size:14px;"></i></div>
-                            <div class="polaroid-time">Just now</div>
-                        </div>
-                        <div class="polaroid-type">${pollQ ? '📊 Poll' : '✨ Moment'}</div>
-                    </div>
-                    <div class="polaroid-content">
-                        ${text ? `<div class="polaroid-text">${esc(text)}</div>` : ''}
-                        ${mediaHtml}
-                        ${pollHtml}
-                    </div>
-                    <div class="polaroid-actions">
-                        <div class="polaroid-action-group">
-                            <div class="polaroid-action" onclick="likeMoment('new')"><i class="fa-solid fa-heart"></i><span>0</span></div>
-                            <div class="polaroid-action" onclick="commentMoment('new')"><i class="fa-regular fa-comment"></i><span>0</span></div>
-                            <div class="polaroid-action" onclick="shareMoment('new')"><i class="fa-regular fa-paper-plane"></i><span>Share</span></div>
-                        </div>
-                        <div class="polaroid-action" onclick="saveMoment('new')"><i class="fa-regular fa-bookmark"></i></div>
-                    </div>
-                `;
-                feed.prepend(card);
-            }
-            window._pendingMomentMedia = null;
-            section.remove();
-            showSection('momentsSection');
-            showToast('Moment posted!');
-        }
         
         function viewMoment(id) {
             const card = event && event.target ? event.target.closest('.polaroid-card') : null;
@@ -5410,85 +5113,11 @@
             hideFloatingNav();
         }
         
-        function sendMomentComment() {
-            const input = document.getElementById('momentCommentInput');
-            const list = document.getElementById('momentCommentsList');
-            if (input && list && input.value.trim()) {
-                const div = document.createElement('div');
-                div.className = 'message sent';
-                div.innerHTML = `<div class="message-content">${esc(input.value.trim())}</div><div class="message-time">${new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</div>`;
-                list.appendChild(div);
-                list.scrollTop = list.scrollHeight;
-                input.value = '';
-            }
-        }
         
-        function likeMoment(id) {
-            const btn = event.target.closest('.polaroid-action');
-            if (btn) {
-                btn.classList.toggle('liked');
-                const icon = btn.querySelector('i');
-                const count = btn.querySelector('span');
-                if (btn.classList.contains('liked')) {
-                    icon.classList.remove('fa-regular');
-                    icon.classList.add('fa-solid');
-                    count.textContent = parseInt(count.textContent) + 1;
-                } else {
-                    icon.classList.remove('fa-solid');
-                    icon.classList.add('fa-regular');
-                    count.textContent = parseInt(count.textContent) - 1;
-                }
-            }
-        }
         
-        function commentMoment(id) {
-            const card = event && event.target ? event.target.closest('.polaroid-card') : null;
-            if (card) openMomentComments(card);
-            else showToast('Comments coming soon');
-        }
         
-        function shareMoment(id) {
-            const text = 'Check out this moment on Ekta!';
-            const url = 'https://ekta.app/moment/' + id;
-            if (navigator.share) {
-                navigator.share({ title: 'Ekta Moment', text: text, url: url }).catch(() => {});
-            } else {
-                navigator.clipboard.writeText(url).then(() => showToast('Moment link copied!'));
-            }
-        }
         
-        function saveMoment(id) {
-            const btn = event.target.closest('.polaroid-action');
-            if (btn) {
-                btn.classList.toggle('saved');
-                const icon = btn.querySelector('i');
-                if (btn.classList.contains('saved')) {
-                    icon.classList.remove('fa-regular');
-                    icon.classList.add('fa-solid');
-                } else {
-                    icon.classList.remove('fa-solid');
-                    icon.classList.add('fa-regular');
-                }
-            }
-        }
         
-        function votePoll(pollId, optionId) {
-            const clicked = event && event.target ? event.target.closest('.poll-option') : null;
-            if (!clicked) return;
-            const container = clicked.closest('.polaroid-poll') || clicked.closest('.section');
-            if (container) {
-                container.querySelectorAll('.poll-option').forEach(o => o.classList.remove('selected'));
-            }
-            clicked.classList.add('selected');
-            const textEl = clicked.querySelector('.poll-text');
-            const votesEl = clicked.querySelector('.poll-votes');
-            if (votesEl && !clicked.dataset.voted) {
-                const n = parseInt(votesEl.textContent) + 1;
-                votesEl.textContent = n + (n === 1 ? ' vote' : ' votes');
-                clicked.dataset.voted = '1';
-            }
-            showToast('Voted for: ' + (textEl ? textEl.textContent : 'option'));
-        }
         
         function createGroup() {
             // Create group creation interface
@@ -5772,100 +5401,8 @@
             }
         }
         
-        function editProfile() {
-            // Create profile edit interface
-            const profileEditSection = document.createElement('div');
-            profileEditSection.className = 'section active';
-            profileEditSection.id = 'profileEditSection';
-            profileEditSection.innerHTML = `
-                <button class="back-button" onclick="goBack(event)">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <div class="profile-edit-section">
-                    <div class="profile-edit-header">
-                        <div class="profile-edit-title">Edit Profile</div>
-                    </div>
-                    <div class="profile-edit-content">
-                        <div class="profile-edit-group">
-                            <label>Profile Picture</label>
-                            <div class="profile-picture-upload">
-                                <div class="profile-picture-preview">M</div>
-                                <button class="upload-btn" onclick="uploadProfilePicture()">Change Photo</button>
-                            </div>
-                        </div>
-                        <div class="profile-edit-group">
-                            <label>Display Name</label>
-                            <input type="text" class="profile-input" value="Mohammed Shakil">
-                        </div>
-                        <div class="profile-edit-group">
-                            <label>Username</label>
-                            <input type="text" class="profile-input" value="@mohammed_shakil">
-                        </div>
-                        <div class="profile-edit-group">
-                            <label>Bio</label>
-                            <textarea class="profile-textarea" placeholder="Tell us about yourself...">Building the future, one line at a time 🚀</textarea>
-                        </div>
-                        <button class="profile-save-btn" onclick="saveProfile()">Save Changes</button>
-                    </div>
-                </div>
-            `;
-            
-            // Hide all sections and show profile edit
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-                section.style.display = 'none';
-            });
-            
-            document.querySelector('.container').appendChild(profileEditSection);
-            profileEditSection.style.display = 'block';
-            
-            // Hide WhatsApp-specific elements
-            document.querySelector('.whatsapp-nav-bar').style.display = 'none';
-            document.querySelector('.chat-bar').style.display = 'none';
-            document.querySelector('.meta-ai-button').style.display = 'none';
-            document.querySelector('.moments-nav').style.display = 'none';
-        }
         
-        function uploadProfilePicture() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            input.onchange = function() {
-                const file = input.files && input.files[0];
-                if (!file) return;
-                const url = URL.createObjectURL(file);
-                window._profilePic = url;
-                const preview = document.querySelector('#profileEditSection .profile-picture-preview');
-                if (preview) {
-                    preview.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
-                }
-                const profAvatar = document.querySelector('#profileSection .profile-avatar');
-                if (profAvatar) {
-                    profAvatar.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
-                }
-                showToast('Profile picture updated!');
-            };
-            input.click();
-        }
         
-        function saveProfile() {
-            const section = document.getElementById('profileEditSection');
-            if (section) {
-                const inputs = section.querySelectorAll('.profile-input');
-                const name = inputs[0] ? inputs[0].value.trim() : '';
-                const user = inputs[1] ? inputs[1].value.trim() : '';
-                const bio = section.querySelector('.profile-textarea').value.trim();
-                const prof = document.getElementById('profileSection');
-                if (prof) {
-                    if (name) prof.querySelector('.profile-name').innerHTML = esc(name) + ' <i class="fa-solid fa-circle-check" style="color:#2196f3;font-size:24px;"></i>';
-                    if (user) prof.querySelector('.profile-username').textContent = user.startsWith('@') ? user : '@' + user;
-                    if (bio) prof.querySelector('.profile-bio').innerHTML = esc(bio).replace(/\n/g, '<br>');
-                }
-            }
-            section && section.remove();
-            showSection('profileSection');
-            showToast('Profile updated!');
-        }
         
         function shareProfile() {
             // Create share profile interface
@@ -5882,10 +5419,10 @@
                     </div>
                     <div class="share-content">
                         <div class="share-profile-card">
-                            <div class="share-avatar">M</div>
+                            <div class="share-avatar">${avatarHtml(myName(), myPic())}</div>
                             <div class="share-info">
-                                <div class="share-name">Mohammed Shakil</div>
-                                <div class="share-username">@mohammed_shakil</div>
+                                <div class="share-name">${esc(myName())}</div>
+                                <div class="share-username">${esc(document.getElementById('profileUsername').textContent)}</div>
                             </div>
                         </div>
                         <div class="share-options">
@@ -5927,7 +5464,7 @@
         }
         
         function shareViaWhatsApp() {
-            const text = encodeURIComponent('Check out Mohammed Shakil on Ekta: https://ekta.app/mohammed_shakil');
+            const text = encodeURIComponent('Check out ' + myName() + ' on Ekta: ' + profileLink());
             window.open('https://wa.me/?text=' + text, '_blank');
             showToast('Opening WhatsApp...');
         }
@@ -5938,15 +5475,15 @@
         }
         
         function shareViaTwitter() {
-            const text = encodeURIComponent('Check out Mohammed Shakil on Ekta! https://ekta.app/mohammed_shakil');
+            const text = encodeURIComponent('Check out ' + myName() + ' on Ekta! ' + profileLink());
             window.open('https://twitter.com/intent/tweet?text=' + text, '_blank');
             showToast('Opening Twitter...');
         }
         
         function copyProfileLink() {
-            navigator.clipboard.writeText('https://ekta.app/mohammed_shakil')
+            navigator.clipboard.writeText(profileLink())
                 .then(() => showToast('Profile link copied!'))
-                .catch(() => showToast('https://ekta.app/mohammed_shakil'));
+                .catch(() => showToast(profileLink()));
         }
         
         function showSettings() {
@@ -6359,14 +5896,6 @@
             showSection('profileSection');
         }
         
-        function confirmLogout() {
-            const logoutSection = document.getElementById('logoutSection');
-            if (logoutSection) {
-                logoutSection.remove();
-            }
-            showSection('connectSection');
-            showToast('Logged out successfully!');
-        }
         
         // ===== Helper Functions =====
         function esc(str) {
@@ -6468,46 +5997,769 @@
                     document.documentElement.classList.add('light-mode');
                 }
             } catch(e) {}
-            showSection('connectSection');
             initAutoHideNav();
         });
         
-        // Re-initialize auto-hide when sections change
-        const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-                    const target = mutation.target;
-                    if (target.classList.contains('section') && target.style.display === 'block') {
-                        initAutoHideNav();
-                    }
+        // ===================== EKTA CORE: Firebase, Auth, Feed, Reels, Play =====================
+        const firebaseConfig = {
+        apiKey: "AIzaSyDLU2_mNM0YCQRBMnrza3dPY0hgNFDft7A",
+        authDomain: "ekta-social.firebaseapp.com",
+        projectId: "ekta-social",
+        storageBucket: "ekta-social.firebasestorage.app",
+        messagingSenderId: "580591801781",
+        appId: "1:580591801781:web:9c9a491cdd3778e6bbf5fc"
+    };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {});
+        const CLOUD_NAME = "dcmru4a63";
+        const UPLOAD_PRESET = "ekta_posts";
+        const EMAILJS_SERVICE = "service_j2hd99d";
+        const EMAILJS_TEMPLATE = "template_slzkovp";
+        emailjs.init("7qwb9fukJ15J0p2VS");
+
+        let authMode = 'login';
+        let generatedOTP = '';
+        let userProfile = {};
+        let allPosts = [];
+        let postsUnsub = null;
+        const commentCounts = {};
+        const commentUnsubs = {};
+        let commentsReturnTo = 'momentsSection';
+        let commentsUnsub = null;
+
+        function showLoader(on) { document.getElementById('ektaLoader').classList.toggle('show', !!on); }
+        function safeUrl(u) { return /^https:\/\//.test(u || '') ? esc(u) : ''; }
+        function isPlaceholderPic(u) { return !u || /placeholder\.com/.test(u); }
+        function avatarHtml(name, pic) {
+            return isPlaceholderPic(pic) ? esc((name || 'E').trim().charAt(0).toUpperCase()) : `<img src="${safeUrl(pic)}" alt="">`;
+        }
+        function timeAgo(d) {
+            if (!d) return 'Abhi';
+            const s = Math.floor((Date.now() - d.getTime()) / 1000);
+            if (s < 60) return 'Abhi';
+            if (s < 3600) return Math.floor(s / 60) + 'm ago';
+            if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+            if (s < 604800) return Math.floor(s / 86400) + 'd ago';
+            return d.toLocaleDateString();
+        }
+        function me() { return auth.currentUser; }
+        function myName() { return (me() && me().displayName) || userProfile.displayName || 'Ekta Member'; }
+        function myPic() { return (me() && me().photoURL) || userProfile.photoURL || ''; }
+
+        // ---------- Auth ----------
+        function switchAuthTab(t) {
+            authMode = t;
+            document.getElementById('loginTab').classList.toggle('active', t === 'login');
+            document.getElementById('signupTab').classList.toggle('active', t === 'signup');
+            document.getElementById('authBtn').textContent = t === 'login' ? 'Login' : 'Sign Up';
+            document.getElementById('authName').style.display = t === 'signup' ? 'block' : 'none';
+            document.getElementById('forgotLink').style.display = t === 'login' ? 'block' : 'none';
+        }
+
+        function resetAuthForm() {
+            generatedOTP = '';
+            document.getElementById('otpBox').style.display = 'none';
+            document.getElementById('authForm').style.display = 'block';
+            document.getElementById('authTabs').style.display = 'flex';
+            const btn = document.getElementById('authBtn');
+            btn.disabled = false;
+            switchAuthTab(authMode);
+        }
+
+        async function handleAuth() {
+            const email = document.getElementById('authEmail').value.trim();
+            const pass = document.getElementById('authPass').value;
+            const btn = document.getElementById('authBtn');
+            if (!email || !pass) return showToast('Email aur password dono bhariye');
+            if (authMode === 'signup' && pass.length < 6) return showToast('Password kam se kam 6 characters ka ho');
+            btn.disabled = true;
+            if (authMode === 'signup') {
+                btn.textContent = 'OTP bhej rahe hain...';
+                generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+                try {
+                    await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, { to_email: email, otp: generatedOTP });
+                    document.getElementById('authForm').style.display = 'none';
+                    document.getElementById('authTabs').style.display = 'none';
+                    document.getElementById('otpBox').style.display = 'block';
+                } catch (err) {
+                    showToast('OTP error: ' + (err.text || err.message || err));
+                    resetAuthForm();
                 }
+            } else {
+                btn.textContent = 'Logging in...';
+                try {
+                    await auth.signInWithEmailAndPassword(email, pass);
+                } catch (err) {
+                    showToast('Login fail! Email/password check karein');
+                    resetAuthForm();
+                }
+            }
+        }
+
+        async function confirmOTP() {
+            const otp = document.getElementById('otpInput').value.trim();
+            const email = document.getElementById('authEmail').value.trim();
+            const pass = document.getElementById('authPass').value;
+            const name = document.getElementById('authName').value.trim() || 'Ekta Member';
+            const btn = document.getElementById('verifyBtn');
+            if (!generatedOTP || otp !== generatedOTP) return showToast('Galat OTP!');
+            btn.disabled = true;
+            btn.textContent = 'Joining Ekta...';
+            try {
+                const cred = await auth.createUserWithEmailAndPassword(email, pass);
+                await cred.user.updateProfile({ displayName: name });
+                await db.collection('users').doc(cred.user.uid).set({
+                    displayName: name, email: email, bio: 'Ekta hi shakti hai', photoURL: '',
+                    joined: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                generatedOTP = '';
+                showToast('Mubarak ho! Welcome to Ekta');
+                onUserReady(cred.user);
+            } catch (err) {
+                showToast(err.code === 'auth/email-already-in-use' ? 'Account pehle se hai, login karein' : err.message);
+                authMode = 'login';
+                resetAuthForm();
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Verify & Join';
+            }
+        }
+
+        async function forgotPassword() {
+            const email = document.getElementById('authEmail').value.trim();
+            if (!email) return showToast('Pehle apna email likhiye');
+            try {
+                await auth.sendPasswordResetEmail(email);
+                showToast('Password reset link email par bhej diya');
+            } catch (err) { showToast(err.message); }
+        }
+
+        auth.onAuthStateChanged(user => {
+            document.body.classList.remove('auth-pending');
+            if (user) {
+                document.body.classList.remove('logged-out');
+                document.body.classList.add('logged-in');
+                onUserReady(user);
+            } else {
+                document.body.classList.remove('logged-in');
+                document.body.classList.add('logged-out');
+                if (postsUnsub) { postsUnsub(); postsUnsub = null; }
+                resetAuthForm();
+            }
+        });
+
+        async function onUserReady(user) {
+            try {
+                const doc = await db.collection('users').doc(user.uid).get();
+                userProfile = doc.exists ? doc.data() : {};
+            } catch (e) { userProfile = {}; }
+            refreshUserUI();
+            if (!postsUnsub) listenPosts();
+            showSection('homeSection');
+        }
+
+        function refreshUserUI() {
+            const name = myName();
+            document.getElementById('homeName').textContent = name;
+            const ca = document.getElementById('composerAvatar');
+            if (ca) ca.innerHTML = avatarHtml(name, myPic());
+            renderProfile();
+        }
+
+        // ---------- Media upload (Cloudinary) ----------
+        async function uploadToCloud(file) {
+            const fd = new FormData();
+            fd.append('file', file);
+            fd.append('upload_preset', UPLOAD_PRESET);
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: 'POST', body: fd });
+            const data = await res.json();
+            if (!res.ok) throw new Error((data.error && data.error.message) || 'Upload failed');
+            return data.secure_url;
+        }
+
+        // ---------- Posts listener ----------
+        function listenPosts() {
+            postsUnsub = db.collection('posts').orderBy('time', 'desc').limit(100).onSnapshot(snap => {
+                allPosts = snap.docs.map(d => Object.assign({ id: d.id }, d.data({ serverTimestamps: 'estimate' })));
+                allPosts.forEach(p => watchCommentCount(p.id));
+                renderMoments();
+                renderReels();
+                renderProfile();
+            }, err => {
+                console.error(err);
+                document.getElementById('momentsFeed').innerHTML = `<div class="feed-empty"><i class="fa-solid fa-triangle-exclamation"></i>Posts load nahi ho payi: ${esc(err.message)}</div>`;
             });
-        });
-        
-        document.querySelectorAll('.section').forEach(function(section) {
-            observer.observe(section, { attributes: true });
-        });
-        
-        // Also observe dynamically created sections
-        const container = document.querySelector('.container');
-        const childObserver = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.type === 'childList') {
-                    mutation.addedNodes.forEach(function(node) {
-                        if (node.nodeType === 1 && node.classList.contains('section')) {
-                            observer.observe(node, { attributes: true });
-                        }
+        }
+
+        function watchCommentCount(id) {
+            if (commentUnsubs[id]) return;
+            commentUnsubs[id] = db.collection('posts').doc(id).collection('comments').onSnapshot(s => {
+                commentCounts[id] = s.size;
+                document.querySelectorAll(`[data-cc="${id}"]`).forEach(el => el.textContent = s.size);
+            }, () => {});
+        }
+
+        function isReel(p) { return p.type === 'reel'; }
+        function isVideoUrl(u, p) { return (p && p.mediaType === 'video') || /\.(mp4|mov|webm)(\?|$)/i.test(u || '') || /\/video\/upload\//.test(u || ''); }
+
+        function postCardHtml(p) {
+            const uid = me() ? me().uid : '';
+            const likes = p.likes || [];
+            const liked = likes.includes(uid);
+            const saved = getSaved().includes(p.id);
+            const date = p.time && p.time.toDate ? p.time.toDate() : null;
+            const media = safeUrl(p.media);
+            const mediaHtml = media ? (isVideoUrl(p.media, p)
+                ? `<video class="polaroid-media" src="${media}" controls playsinline preload="metadata"></video>`
+                : `<img class="polaroid-media" src="${media}" loading="lazy" alt="">`) : '';
+            let pollHtml = '';
+            if (p.poll && Array.isArray(p.poll.options)) {
+                const total = p.poll.options.reduce((n, o) => n + (o.votes || []).length, 0);
+                pollHtml = `<div class="polaroid-poll"><div class="poll-question">${esc(p.poll.question || '')}</div>` +
+                    p.poll.options.map((o, i) => {
+                        const n = (o.votes || []).length;
+                        const pct = total ? Math.round(n * 100 / total) : 0;
+                        const mine = (o.votes || []).includes(uid);
+                        return `<div class="poll-option ${mine ? 'selected' : ''}" onclick="votePoll('${p.id}', ${i})"><div class="poll-bar" style="transform:scaleX(${pct / 100})"></div><div class="poll-radio"></div><div class="poll-text">${esc(o.text)}</div><div class="poll-votes">${n} vote${n === 1 ? '' : 's'} &middot; ${pct}%</div></div>`;
+                    }).join('') + `</div>`;
+            }
+            const type = p.poll ? '📊 Poll' : (media ? (isVideoUrl(p.media, p) ? '🎬 Video' : '📷 Photo') : '✨ Moment');
+            return `
+                <div class="polaroid-card" id="post-${p.id}">
+                    <div class="polaroid-header">
+                        <div class="polaroid-avatar">${avatarHtml(p.uName, p.uPic)}</div>
+                        <div class="polaroid-info">
+                            <div class="polaroid-name">${esc(p.uName || 'Ekta Member')}</div>
+                            <div class="polaroid-time">${timeAgo(date)}</div>
+                        </div>
+                        <div class="polaroid-type">${type}</div>
+                        ${p.uid === uid ? `<i class="fa-solid fa-trash polaroid-delete" onclick="deleteMoment('${p.id}')"></i>` : ''}
+                    </div>
+                    <div class="polaroid-content">
+                        ${p.text ? `<div class="polaroid-text">${esc(p.text).replace(/\n/g, '<br>')}</div>` : ''}
+                        ${mediaHtml}
+                        ${pollHtml}
+                    </div>
+                    <div class="polaroid-actions">
+                        <div class="polaroid-action-group">
+                            <div class="polaroid-action ${liked ? 'liked' : ''}" onclick="likeMoment('${p.id}')"><i class="fa-${liked ? 'solid' : 'regular'} fa-heart"></i><span>${likes.length}</span></div>
+                            <div class="polaroid-action" onclick="commentMoment('${p.id}')"><i class="fa-regular fa-comment"></i><span data-cc="${p.id}">${commentCounts[p.id] || 0}</span></div>
+                            <div class="polaroid-action" onclick="shareMoment('${p.id}')"><i class="fa-regular fa-paper-plane"></i><span>Share</span></div>
+                        </div>
+                        <div class="polaroid-action ${saved ? 'saved' : ''}" onclick="saveMoment('${p.id}')"><i class="fa-${saved ? 'solid' : 'regular'} fa-bookmark"></i></div>
+                    </div>
+                </div>`;
+        }
+
+        function emptyHtml(icon, msg) { return `<div class="feed-empty"><i class="fa-solid ${icon}"></i>${msg}</div>`; }
+
+        function renderMoments() {
+            const posts = allPosts.filter(p => !isReel(p));
+            const feed = document.getElementById('momentsFeed');
+            if (feed) feed.innerHTML = posts.length ? posts.map(postCardHtml).join('') : emptyHtml('fa-images', 'Abhi koi moment nahi hai. Pehla moment aap post kariye!');
+            const home = document.getElementById('homeMoments');
+            if (home) home.innerHTML = posts.length ? posts.slice(0, 2).map(postCardHtml).join('') : emptyHtml('fa-images', 'Koi moment nahi');
+        }
+
+        // ---------- Create Moment ----------
+        function createMoment() {
+            document.querySelectorAll('.section').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
+            const old = document.getElementById('momentCreateSection');
+            if (old) old.remove();
+            window._pendingMomentFile = null;
+            const sec = document.createElement('div');
+            sec.className = 'section active';
+            sec.id = 'momentCreateSection';
+            sec.innerHTML = `
+                <button class="back-button" onclick="goBack(event)"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="moment-create-section">
+                    <div class="moment-create-header"><div class="moment-create-title">Create Moment</div></div>
+                    <div class="moment-create-content">
+                        <div class="moment-input-group">
+                            <label>Kya chal raha hai?</label>
+                            <textarea class="moment-textarea" id="momentText" placeholder="Apne vichar share kariye..."></textarea>
+                        </div>
+                        <div class="moment-input-group">
+                            <label>Photo / Video</label>
+                            <button class="moment-upload-btn" onclick="uploadMedia()"><i class="fa-solid fa-cloud-arrow-up"></i><span>Upload Media</span></button>
+                        </div>
+                        <div class="moment-input-group">
+                            <label>Poll Question (Optional)</label>
+                            <input type="text" class="moment-input" id="momentPollQ" placeholder="Sawaal poochiye...">
+                            <input type="text" class="moment-input" id="momentPollOpts" placeholder="Options comma se: Haan, Nahi, Shayad" style="margin-top:10px;">
+                        </div>
+                        <button class="moment-post-btn" id="momentPostBtn" onclick="postMoment()">Post Moment</button>
+                    </div>
+                </div>`;
+            document.querySelector('.container').appendChild(sec);
+            sec.style.display = 'block';
+            hideFloatingNav();
+        }
+
+        function uploadMedia() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*,video/*';
+            input.onchange = function () {
+                const file = input.files && input.files[0];
+                if (!file) return;
+                window._pendingMomentFile = file;
+                const url = URL.createObjectURL(file);
+                const section = document.getElementById('momentCreateSection');
+                if (!section) return;
+                let preview = document.getElementById('momentMediaPreview');
+                if (!preview) {
+                    preview = document.createElement('div');
+                    preview.id = 'momentMediaPreview';
+                    preview.style.cssText = 'margin:10px 0;border-radius:12px;overflow:hidden;';
+                    section.querySelector('.moment-create-content').insertBefore(preview, document.getElementById('momentPostBtn'));
+                }
+                preview.innerHTML = file.type.startsWith('video/')
+                    ? `<video src="${url}" controls style="width:100%;max-height:240px;border-radius:12px;"></video>`
+                    : `<img src="${url}" style="width:100%;max-height:240px;object-fit:cover;border-radius:12px;">`;
+            };
+            input.click();
+        }
+
+        async function postMoment() {
+            const text = document.getElementById('momentText').value.trim();
+            const pollQ = document.getElementById('momentPollQ').value.trim();
+            const opts = document.getElementById('momentPollOpts').value.split(',').map(s => s.trim()).filter(Boolean);
+            const file = window._pendingMomentFile;
+            if (!text && !pollQ && !file) return showToast('Kuch likhiye ya photo/video add kariye');
+            if (pollQ && opts.length < 2) return showToast('Poll ke liye kam se kam 2 options likhiye');
+            const btn = document.getElementById('momentPostBtn');
+            btn.disabled = true;
+            btn.textContent = 'Posting...';
+            showLoader(true);
+            try {
+                const data = {
+                    text: text, media: '', uid: me().uid, uName: myName(), uPic: myPic(), likes: [], type: 'post',
+                    time: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                if (file) {
+                    data.media = await uploadToCloud(file);
+                    data.mediaType = file.type.startsWith('video/') ? 'video' : 'image';
+                }
+                if (pollQ) data.poll = { question: pollQ, options: opts.slice(0, 6).map(t => ({ text: t, votes: [] })) };
+                await db.collection('posts').add(data);
+                window._pendingMomentFile = null;
+                document.getElementById('momentCreateSection').remove();
+                showSection('momentsSection');
+                showToast('Moment post ho gaya!');
+            } catch (e) {
+                showToast('Post error: ' + e.message);
+                btn.disabled = false;
+                btn.textContent = 'Post Moment';
+            } finally { showLoader(false); }
+        }
+
+        // ---------- Like / Comment / Share / Save / Delete / Poll ----------
+        async function likeMoment(id) {
+            if (!me()) return;
+            const p = allPosts.find(x => x.id === id);
+            const liked = p && (p.likes || []).includes(me().uid);
+            const FV = firebase.firestore.FieldValue;
+            try {
+                await db.collection('posts').doc(id).update({ likes: liked ? FV.arrayRemove(me().uid) : FV.arrayUnion(me().uid) });
+            } catch (e) { showToast(e.message); }
+        }
+
+        function commentMoment(id) {
+            const p = allPosts.find(x => x.id === id);
+            const active = document.querySelector('.section.active');
+            commentsReturnTo = active ? active.id : 'momentsSection';
+            document.querySelectorAll('.section').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
+            const sec = document.createElement('div');
+            sec.className = 'section active';
+            sec.id = 'momentCommentsSection';
+            sec.dataset.postId = id;
+            sec.innerHTML = `
+                <button class="back-button" onclick="goBack(event)"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="chat-section">
+                    <div class="chat-header">
+                        <div class="chat-header-avatar">${avatarHtml(p && p.uName, p && p.uPic)}</div>
+                        <div class="chat-header-info">
+                            <div class="chat-header-name">${esc((p && p.uName) || 'Moment')}</div>
+                            <div class="chat-header-status">Comments</div>
+                        </div>
+                    </div>
+                    <div class="chat-messages" style="padding:15px;">
+                        ${p && p.text ? `<div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:12px;margin-bottom:15px;color:#cbd5e1;font-size:14px;">${esc(p.text)}</div>` : ''}
+                        <div id="momentCommentsList"></div>
+                    </div>
+                    <div class="chat-input-bar">
+                        <input type="text" class="chat-input" id="momentCommentInput" placeholder="Comment likhiye...">
+                        <button class="chat-send-btn" onclick="sendMomentComment()"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>`;
+            document.querySelector('.container').appendChild(sec);
+            sec.style.display = 'block';
+            hideFloatingNav();
+            if (commentsUnsub) commentsUnsub();
+            commentsUnsub = db.collection('posts').doc(id).collection('comments').orderBy('time', 'asc').onSnapshot(snap => {
+                const list = document.getElementById('momentCommentsList');
+                if (!list) return;
+                list.innerHTML = snap.empty ? emptyHtml('fa-comment', 'Pehla comment aap kariye') : snap.docs.map(d => {
+                    const c = d.data({ serverTimestamps: 'estimate' });
+                    return `<div class="comment-item"><div class="ekta-avatar" style="width:32px;height:32px;font-size:13px;">${avatarHtml(c.uName, c.uPic)}</div><div><b>${esc(c.uName || 'Ekta Member')}</b><p>${esc(c.text)}</p></div></div>`;
+                }).join('');
+            });
+        }
+
+        async function sendMomentComment() {
+            const sec = document.getElementById('momentCommentsSection');
+            const input = document.getElementById('momentCommentInput');
+            if (!sec || !input || !input.value.trim() || !me()) return;
+            const text = input.value.trim();
+            input.value = '';
+            try {
+                await db.collection('posts').doc(sec.dataset.postId).collection('comments').add({
+                    text: text, uid: me().uid, uName: myName(), uPic: myPic(),
+                    time: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            } catch (e) { showToast(e.message); }
+        }
+
+        function shareMoment(id) {
+            const url = location.origin + location.pathname + '#post-' + id;
+            if (navigator.share) navigator.share({ title: 'Ekta', text: 'Ekta par ye dekhiye!', url: url }).catch(() => {});
+            else navigator.clipboard.writeText(url).then(() => showToast('Link copy ho gaya!'));
+        }
+
+        function getSaved() { try { return JSON.parse(localStorage.getItem('ektaSaved') || '[]'); } catch (e) { return []; } }
+        function saveMoment(id) {
+            let saved = getSaved();
+            const isSaved = saved.includes(id);
+            saved = isSaved ? saved.filter(x => x !== id) : saved.concat(id);
+            try { localStorage.setItem('ektaSaved', JSON.stringify(saved)); } catch (e) {}
+            renderMoments();
+            showToast(isSaved ? 'Saved se hata diya' : 'Save ho gaya');
+        }
+
+        async function deleteMoment(id) {
+            if (!confirm('Ye post delete karein?')) return;
+            try { await db.collection('posts').doc(id).delete(); showToast('Delete ho gaya'); }
+            catch (e) { showToast(e.message); }
+        }
+
+        async function votePoll(postId, idx) {
+            if (!me()) return;
+            const uid = me().uid;
+            const ref = db.collection('posts').doc(postId);
+            try {
+                await db.runTransaction(async tx => {
+                    const doc = await tx.get(ref);
+                    const poll = doc.data().poll;
+                    if (!poll) return;
+                    poll.options.forEach((o, i) => {
+                        o.votes = (o.votes || []).filter(v => v !== uid);
+                        if (i === idx) o.votes.push(uid);
                     });
-                }
+                    tx.update(ref, { poll: poll });
+                });
+            } catch (e) { showToast(e.message); }
+        }
+
+        // ---------- Reels ----------
+        let reelObserver = null;
+        function renderReels() {
+            const box = document.getElementById('reelsFeed');
+            if (!box) return;
+            const reels = allPosts.filter(isReel);
+            const uid = me() ? me().uid : '';
+            box.innerHTML = reels.length ? reels.map(p => {
+                const liked = (p.likes || []).includes(uid);
+                return `
+                <div class="reel-item">
+                    <div class="reel-video"><video src="${safeUrl(p.media)}" loop muted playsinline preload="metadata" onclick="this.paused ? this.play() : this.pause()"></video>
+                        <div class="reel-mute" onclick="toggleReelMute(this)"><i class="fa-solid fa-volume-xmark"></i></div></div>
+                    <div class="reel-info">
+                        <div class="reel-author"><div class="reel-avatar">${avatarHtml(p.uName, p.uPic)}</div><div class="reel-name">${esc(p.uName || 'Ekta Member')}</div>
+                            ${p.uid === uid ? `<i class="fa-solid fa-trash polaroid-delete" style="margin-left:auto" onclick="deleteMoment('${p.id}')"></i>` : ''}</div>
+                        ${p.text ? `<div class="reel-caption">${esc(p.text)}</div>` : ''}
+                        <div class="reel-actions">
+                            <div class="reel-action ${liked ? 'liked' : ''}" onclick="likeMoment('${p.id}')"><i class="fa-${liked ? 'solid' : 'regular'} fa-heart"></i><span>${(p.likes || []).length}</span></div>
+                            <div class="reel-action" onclick="commentMoment('${p.id}')"><i class="fa-regular fa-comment"></i><span data-cc="${p.id}">${commentCounts[p.id] || 0}</span></div>
+                            <div class="reel-action" onclick="shareMoment('${p.id}')"><i class="fa-regular fa-paper-plane"></i><span>Share</span></div>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('') : emptyHtml('fa-clapperboard', 'Abhi koi reel nahi hai. Pehli reel aap banaiye!');
+            if (reelObserver) reelObserver.disconnect();
+            reelObserver = new IntersectionObserver(entries => entries.forEach(en => {
+                const reelsActive = document.getElementById('reelsSection').classList.contains('active');
+                if (en.isIntersecting && reelsActive) en.target.play().catch(() => {}); else en.target.pause();
+            }), { threshold: 0.6 });
+            box.querySelectorAll('video').forEach(v => reelObserver.observe(v));
+        }
+
+        function toggleReelMute(btn) {
+            const v = btn.parentElement.querySelector('video');
+            v.muted = !v.muted;
+            btn.innerHTML = `<i class="fa-solid fa-volume-${v.muted ? 'xmark' : 'high'}"></i>`;
+        }
+        function pauseAllReels() { document.querySelectorAll('#reelsFeed video').forEach(v => v.pause()); }
+
+        function createReel() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'video/*';
+            input.onchange = async function () {
+                const file = input.files && input.files[0];
+                if (!file) return;
+                if (file.size > 100 * 1024 * 1024) return showToast('Video 100MB se chhota hona chahiye');
+                const caption = prompt('Reel ka caption likhiye (optional):') || '';
+                showLoader(true);
+                try {
+                    const url = await uploadToCloud(file);
+                    await db.collection('posts').add({
+                        text: caption.trim(), media: url, mediaType: 'video', type: 'reel',
+                        uid: me().uid, uName: myName(), uPic: myPic(), likes: [],
+                        time: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    showToast('Reel post ho gayi!');
+                } catch (e) { showToast('Upload error: ' + e.message); }
+                finally { showLoader(false); }
+            };
+            input.click();
+        }
+
+        // ---------- Profile ----------
+        function renderProfile() {
+            const sec = document.getElementById('profileSection');
+            if (!sec || !me()) return;
+            const name = myName();
+            const mine = allPosts.filter(p => p.uid === me().uid);
+            document.getElementById('profileAvatar').innerHTML = avatarHtml(name, myPic());
+            document.getElementById('profileName').textContent = name;
+            document.getElementById('profileUsername').textContent = '@' + (userProfile.username || (me().email || 'ekta').split('@')[0]);
+            document.getElementById('profileBio').textContent = userProfile.bio || 'Ekta hi shakti hai';
+            document.getElementById('statPosts').textContent = mine.filter(p => !isReel(p)).length;
+            document.getElementById('statReels').textContent = mine.filter(isReel).length;
+            document.getElementById('statLikes').textContent = mine.reduce((n, p) => n + (p.likes || []).length, 0);
+            const list = document.getElementById('myMoments');
+            if (list) list.innerHTML = mine.length ? mine.map(postCardHtml).join('') : emptyHtml('fa-images', 'Aapki gallery khaali hai');
+        }
+
+        function editProfile() {
+            document.querySelectorAll('.section').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
+            window._newProfilePic = null;
+            const sec = document.createElement('div');
+            sec.className = 'section active';
+            sec.id = 'profileEditSection';
+            sec.innerHTML = `
+                <button class="back-button" onclick="goBack(event)"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="profile-edit-section">
+                    <div class="profile-edit-header"><div class="profile-edit-title">Edit Profile</div></div>
+                    <div class="profile-edit-content">
+                        <div class="profile-edit-group">
+                            <label>Profile Picture</label>
+                            <div class="profile-picture-upload">
+                                <div class="profile-picture-preview">${avatarHtml(myName(), myPic())}</div>
+                                <button class="upload-btn" onclick="uploadProfilePicture()">Change Photo</button>
+                            </div>
+                        </div>
+                        <div class="profile-edit-group"><label>Display Name</label><input type="text" class="profile-input" id="editName" value="${esc(myName())}"></div>
+                        <div class="profile-edit-group"><label>Username</label><input type="text" class="profile-input" id="editUsername" value="${esc(userProfile.username || (me().email || '').split('@')[0])}"></div>
+                        <div class="profile-edit-group"><label>Bio</label><textarea class="profile-textarea" id="editBio">${esc(userProfile.bio || '')}</textarea></div>
+                        <button class="profile-save-btn" id="profileSaveBtn" onclick="saveProfile()">Save Changes</button>
+                    </div>
+                </div>`;
+            document.querySelector('.container').appendChild(sec);
+            sec.style.display = 'block';
+            hideFloatingNav();
+        }
+
+        function uploadProfilePicture() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function () {
+                const file = input.files && input.files[0];
+                if (!file) return;
+                window._newProfilePic = file;
+                const preview = document.querySelector('#profileEditSection .profile-picture-preview');
+                if (preview) preview.innerHTML = `<img src="${URL.createObjectURL(file)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+            };
+            input.click();
+        }
+
+        async function saveProfile() {
+            const user = me();
+            if (!user) return;
+            const name = document.getElementById('editName').value.trim() || myName();
+            const username = document.getElementById('editUsername').value.trim().replace(/^@/, '').replace(/[^a-zA-Z0-9_.]/g, '');
+            const bio = document.getElementById('editBio').value.trim();
+            const btn = document.getElementById('profileSaveBtn');
+            btn.disabled = true;
+            showLoader(true);
+            try {
+                const update = { displayName: name, username: username, bio: bio };
+                if (window._newProfilePic) update.photoURL = await uploadToCloud(window._newProfilePic);
+                await user.updateProfile(update.photoURL ? { displayName: name, photoURL: update.photoURL } : { displayName: name });
+                await db.collection('users').doc(user.uid).set(update, { merge: true });
+                Object.assign(userProfile, update);
+                refreshUserUI();
+                document.getElementById('profileEditSection').remove();
+                showSection('profileSection');
+                showToast('Profile update ho gayi!');
+            } catch (e) {
+                showToast('Error: ' + e.message);
+                btn.disabled = false;
+            } finally { showLoader(false); }
+        }
+
+        function confirmLogout() {
+            const s = document.getElementById('logoutSection');
+            if (s) s.remove();
+            Object.values(commentUnsubs).forEach(u => u());
+            Object.keys(commentUnsubs).forEach(k => delete commentUnsubs[k]);
+            auth.signOut().then(() => showToast('Logout ho gaye'));
+        }
+
+        function openPariwar() {
+            closeHamburgerMenu();
+            showInfoSection('Ekta Pariwar', '<iframe src="https://ektagroup.github.io/ekta-pariwar/" style="width:100%;height:75vh;border:none;border-radius:16px;background:#fff;"></iframe>');
+        }
+
+        function profileLink() { return location.origin + location.pathname + '#user-' + (me() ? me().uid : ''); }
+
+        function openProfile() {
+            closeHamburgerMenu();
+            showSection('profileSection');
+        }
+
+        // ---------- Play: Live Scores ----------
+        const SPORTS = [
+            { key: 'cricket', label: '🏏 Cricket', url: 'https://site.api.espn.com/apis/site/v2/sports/cricket/scorepanel' },
+            { key: 'epl', label: '⚽ Premier League', url: 'https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard' },
+            { key: 'ucl', label: '🏆 Champions League', url: 'https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard' },
+            { key: 'laliga', label: '⚽ La Liga', url: 'https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/scoreboard' },
+            { key: 'isl', label: '⚽ ISL', url: 'https://site.api.espn.com/apis/site/v2/sports/soccer/ind.1/scoreboard' },
+            { key: 'nba', label: '🏀 NBA', url: 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard' },
+            { key: 'nfl', label: '🏈 NFL', url: 'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard' }
+        ];
+        let activeSport = 'cricket';
+        let scoresTimer = null;
+
+        function renderPlayTabs() {
+            const tabs = document.getElementById('playTabs');
+            tabs.innerHTML = SPORTS.map(s => `<button class="play-chip ${s.key === activeSport ? 'active' : ''}" onclick="selectSport('${s.key}')">${s.label}</button>`).join('');
+        }
+        function selectSport(key) { activeSport = key; renderPlayTabs(); loadScores(); }
+
+        function scoreCardHtml(ev, leagueName) {
+            const c = ev.competitions && ev.competitions[0];
+            if (!c) return '';
+            const st = (c.status || ev.status || {}).type || {};
+            const live = st.state === 'in';
+            const teams = (c.competitors || []).slice().sort((a, b) => (a.homeAway === 'home') - (b.homeAway === 'home'));
+            return `<div class="score-card">
+                <div class="score-meta"><span>${esc(leagueName || ev.shortName || '')}</span>${live ? `<span class="score-live">LIVE</span>` : `<span>${esc(st.shortDetail || '')}</span>`}</div>
+                ${teams.map(t => `<div class="score-team ${String(t.winner) === 'true' ? 'winner' : ''}">
+                    ${t.team && t.team.logo ? `<img src="${safeUrl(t.team.logo)}" alt="" loading="lazy">` : '<i class="fa-solid fa-shield-halved" style="width:26px;color:#bf953f"></i>'}
+                    <div class="score-team-name">${esc((t.team && (t.team.displayName || t.team.name)) || '')}</div>
+                    <div class="score-team-score">${esc(t.score || '')}</div></div>`).join('')}
+                ${c.status && c.status.summary ? `<div class="score-meta" style="margin:8px 0 0">${esc(c.status.summary)}</div>` : ''}
+            </div>`;
+        }
+
+        async function fetchSport(key) {
+            const s = SPORTS.find(x => x.key === key);
+            const res = await fetch(s.url);
+            const d = await res.json();
+            if (d.scores) return d.scores.flatMap(g => (g.events || []).map(ev => ({ ev, league: g.leagues && g.leagues[0] && g.leagues[0].name })));
+            const league = d.leagues && d.leagues[0] && d.leagues[0].name;
+            return (d.events || []).map(ev => ({ ev, league }));
+        }
+
+        function sortLiveFirst(list) {
+            const rank = x => { const st = ((x.ev.competitions[0].status || x.ev.status || {}).type || {}).state; return st === 'in' ? 0 : st === 'pre' ? 1 : 2; };
+            return list.slice().sort((a, b) => rank(a) - rank(b));
+        }
+
+        async function loadScores() {
+            renderPlayTabs();
+            const box = document.getElementById('playScores');
+            box.innerHTML = '<div class="feed-empty"><div class="ekta-spinner" style="margin:0 auto"></div></div>';
+            try {
+                const list = sortLiveFirst(await fetchSport(activeSport));
+                box.innerHTML = list.length ? list.map(x => scoreCardHtml(x.ev, x.league)).join('') : emptyHtml('fa-calendar-xmark', 'Aaj koi match nahi hai');
+            } catch (e) { box.innerHTML = emptyHtml('fa-wifi', 'Scores load nahi ho paye. Internet check kariye.'); }
+            clearTimeout(scoresTimer);
+            scoresTimer = setTimeout(() => { if (document.getElementById('playSection').classList.contains('active')) loadScores(); }, 60000);
+        }
+
+        async function loadHomeScores() {
+            const box = document.getElementById('homeScores');
+            try {
+                const list = sortLiveFirst(await fetchSport('cricket')).slice(0, 2);
+                box.innerHTML = list.length ? list.map(x => scoreCardHtml(x.ev, x.league)).join('') : emptyHtml('fa-calendar-xmark', 'Aaj koi match nahi hai');
+            } catch (e) { box.innerHTML = ''; }
+        }
+
+        // ---------- Navigation ----------
+        const MAIN_TABS = ['connectSection', 'momentsSection', 'reelsSection', 'playSection'];
+        const NAV_TABS = ['homeSection', 'momentsSection', 'reelsSection', 'playSection'];
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
+            const target = document.getElementById(sectionId);
+            if (target) { target.classList.add('active'); target.style.display = 'block'; currentSection = target; }
+            document.querySelectorAll('.default-nav-item').forEach((item, i) => item.classList.toggle('active', MAIN_TABS[i] === sectionId));
+            const inConnect = sectionId === 'connectSection';
+            const nav = document.getElementById('defaultNav');
+            nav.style.display = 'flex';
+            nav.classList.toggle('nav-hidden', !NAV_TABS.includes(sectionId));
+            [['.whatsapp-nav-bar', 'flex'], ['.meta-ai-button', 'flex'], ['.fab', 'block']].forEach(([sel, disp]) => {
+                const el = document.querySelector(sel);
+                if (el) { el.style.display = inConnect ? disp : 'none'; el.classList.remove('nav-hidden'); }
             });
-        });
-        
-        childObserver.observe(container, { childList: true });
-        
-        // Force re-initialization after a short delay to ensure all elements are loaded
-        setTimeout(function() {
-            initAutoHideNav();
-        }, 100);
+            window.scrollTo(0, 0);
+            lastScrollTop = 0;
+            if (sectionId === 'reelsSection') renderReels(); else pauseAllReels();
+            if (sectionId === 'playSection') loadScores();
+            if (sectionId === 'homeSection') loadHomeScores();
+            if (sectionId === 'profileSection') renderProfile();
+        }
+
+        function goBack(event) {
+            if (event) event.stopPropagation();
+            const cur = document.querySelector('.section.active');
+            const id = cur ? cur.id : '';
+            const permanent = ['homeSection', 'connectSection', 'momentsSection', 'reelsSection', 'playSection', 'groupsSection', 'statusSection', 'profileSection', 'whatsappNewSection'];
+            const parentMap = {
+                chatSection: 'connectSection', callSection: 'connectSection', groupsSection: 'connectSection', statusSection: 'connectSection',
+                whatsappNewSection: 'connectSection', aiSection: 'connectSection', cameraSection: 'connectSection', emojiSection: 'connectSection', fileSection: 'connectSection',
+                groupCreateSection: 'groupsSection', groupChatSection: 'groupsSection', statusCreateSection: 'statusSection', statusViewSection: 'statusSection',
+                momentCreateSection: 'momentsSection', profileEditSection: 'profileSection', shareProfileSection: 'profileSection'
+            };
+            let parent = parentMap[id] || 'homeSection';
+            if (id === 'momentCommentsSection') {
+                parent = commentsReturnTo;
+                if (commentsUnsub) { commentsUnsub(); commentsUnsub = null; }
+            }
+            if (cur && !permanent.includes(id)) cur.remove();
+            showSection(parent);
+        }
+
+        function initAutoHideNav() {
+            if (window._ektaNavInit) return;
+            window._ektaNavInit = true;
+            window.addEventListener('scroll', () => {
+                const active = document.querySelector('.section.active');
+                if (!active || !NAV_TABS.includes(active.id)) return;
+                const nav = document.getElementById('defaultNav');
+                const y = window.scrollY;
+                if (y > lastScrollTop && y > 60) nav.classList.add('nav-hidden');
+                else if (y < lastScrollTop) nav.classList.remove('nav-hidden');
+                lastScrollTop = y;
+            }, { passive: true });
+        }
+
     </script>
 </body>
 </html>
