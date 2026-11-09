@@ -3684,6 +3684,7 @@
                 <input id="authPass" class="auth-input" type="password" placeholder="Password" autocomplete="current-password">
                 <button id="authBtn" class="auth-btn" onclick="handleAuth()">Login</button>
                 <div class="auth-link" id="forgotLink" onclick="forgotPassword()">Password bhool gaye?</div>
+                <div class="auth-link" id="guestLink" onclick="continueAsGuest()" style="color:#94a3b8">Abhi nahi, Guest ke roop me dekhein</div>
             </div>
             <div id="otpBox" style="display:none">
                 <p class="auth-note">Aapke email par 6 digit ka OTP bheja gaya hai</p>
@@ -4341,7 +4342,7 @@
             </div>
         </div>
         
-        <div class="modal-item" onclick="showSettings()">
+        <div class="modal-item" onclick="closeHamburgerMenu();showSettings()">
             <div class="modal-item-icon">
                 <i class="fa-solid fa-gear"></i>
             </div>
@@ -4351,7 +4352,7 @@
             </div>
         </div>
         
-        <div class="modal-item" onclick="showPrivacy()">
+        <div class="modal-item" onclick="closeHamburgerMenu();showPrivacy()">
             <div class="modal-item-icon">
                 <i class="fa-solid fa-shield-halved"></i>
             </div>
@@ -4361,7 +4362,7 @@
             </div>
         </div>
         
-        <div class="modal-item" onclick="showHelp()">
+        <div class="modal-item" onclick="closeHamburgerMenu();showHelp()">
             <div class="modal-item-icon">
                 <i class="fa-solid fa-circle-question"></i>
             </div>
@@ -4371,7 +4372,7 @@
             </div>
         </div>
         
-        <div class="modal-item" onclick="showAbout()">
+        <div class="modal-item" onclick="closeHamburgerMenu();showAbout()">
             <div class="modal-item-icon">
                 <i class="fa-solid fa-info-circle"></i>
             </div>
@@ -4381,7 +4382,7 @@
             </div>
         </div>
         
-        <div class="modal-item" onclick="showLogout()">
+        <div class="modal-item" onclick="closeHamburgerMenu();showLogout()">
             <div class="modal-item-icon">
                 <i class="fa-solid fa-right-from-bracket"></i>
             </div>
@@ -6025,6 +6026,8 @@
         let userProfile = {};
         let allPosts = [];
         let postsUnsub = null;
+        let myPosts = [];
+        let myPostsUnsub = null;
         const commentCounts = {};
         const commentUnsubs = {};
         let commentsReturnTo = 'momentsSection';
@@ -6049,8 +6052,22 @@
         function myName() { return (me() && me().displayName) || userProfile.displayName || (me() ? 'Ekta Member' : 'Guest'); }
         function needLogin() {
             if (me()) return false;
-            showToast('Ye feature login ke baad chalega (login jald aa raha hai)');
+            openLogin();
+            showToast('Is feature ke liye login kariye');
             return true;
+        }
+        function openLogin() {
+            closeHamburgerMenu();
+            document.body.classList.remove('logged-in');
+            document.body.classList.add('logged-out');
+            document.getElementById('guestLink').style.display = REQUIRE_LOGIN ? 'none' : 'block';
+            resetAuthForm();
+        }
+        function continueAsGuest() {
+            if (REQUIRE_LOGIN) return;
+            document.body.classList.remove('logged-out');
+            document.body.classList.add('logged-in', 'guest');
+            if (!document.querySelector('.section.active')) showSection('homeSection');
         }
         function myPic() { return (me() && me().photoURL) || userProfile.photoURL || ''; }
 
@@ -6072,6 +6089,7 @@
             const btn = document.getElementById('authBtn');
             btn.disabled = false;
             switchAuthTab(authMode);
+            document.getElementById('guestLink').style.display = REQUIRE_LOGIN ? 'none' : 'block';
         }
 
         async function handleAuth() {
@@ -6145,16 +6163,19 @@
         auth.onAuthStateChanged(user => {
             document.body.classList.remove('auth-pending');
             if (user) {
-                document.body.classList.remove('logged-out');
+                document.body.classList.remove('logged-out', 'guest');
                 document.body.classList.add('logged-in');
                 onUserReady(user);
             } else if (!REQUIRE_LOGIN) {
                 document.body.classList.remove('logged-out');
                 document.body.classList.add('logged-in', 'guest');
                 userProfile = {};
+                myPosts = [];
+                if (myPostsUnsub) { myPostsUnsub(); myPostsUnsub = null; }
                 refreshUserUI();
                 if (!postsUnsub) listenPosts();
                 showSection('homeSection');
+                openSharedPost();
             } else {
                 document.body.classList.remove('logged-in');
                 document.body.classList.add('logged-out');
@@ -6170,7 +6191,15 @@
             } catch (e) { userProfile = {}; }
             refreshUserUI();
             if (!postsUnsub) listenPosts();
+            if (myPostsUnsub) myPostsUnsub();
+            myPostsUnsub = db.collection('posts').where('uid', '==', user.uid).onSnapshot(snap => {
+                myPosts = snap.docs.map(d => Object.assign({ id: d.id }, d.data({ serverTimestamps: 'estimate' })))
+                    .sort((a, b) => ((b.time && b.time.toMillis()) || 0) - ((a.time && a.time.toMillis()) || 0));
+                myPosts.forEach(p => watchCommentCount(p.id));
+                renderProfile();
+            }, err => console.error(err));
             showSection('homeSection');
+            openSharedPost();
         }
 
         function refreshUserUI() {
@@ -6215,6 +6244,7 @@
         }
 
         function isReel(p) { return p.type === 'reel'; }
+        function findPost(id) { return allPosts.find(x => x.id === id) || myPosts.find(x => x.id === id); }
         function isVideoUrl(u, p) { return (p && p.mediaType === 'video') || /\.(mp4|mov|webm)(\?|$)/i.test(u || '') || /\/video\/upload\//.test(u || ''); }
 
         function postCardHtml(p) {
@@ -6374,7 +6404,7 @@
         async function likeMoment(id) {
             if (needLogin()) return;
             if (!me()) return;
-            const p = allPosts.find(x => x.id === id);
+            const p = findPost(id);
             const liked = p && (p.likes || []).includes(me().uid);
             const FV = firebase.firestore.FieldValue;
             try {
@@ -6383,7 +6413,7 @@
         }
 
         function commentMoment(id) {
-            const p = allPosts.find(x => x.id === id);
+            const p = findPost(id);
             const active = document.querySelector('.section.active');
             commentsReturnTo = active ? active.id : 'momentsSection';
             document.querySelectorAll('.section').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
@@ -6436,6 +6466,21 @@
                     text: text, uid: me().uid, uName: myName(), uPic: myPic(),
                     time: firebase.firestore.FieldValue.serverTimestamp()
                 });
+            } catch (e) { showToast(e.message); }
+        }
+
+        async function openSharedPost() {
+            const m = location.hash.match(/^#post-([A-Za-z0-9]+)$/);
+            if (!m) return;
+            const id = m[1];
+            history.replaceState(null, '', location.pathname + location.search);
+            try {
+                if (!findPost(id)) {
+                    const doc = await db.collection('posts').doc(id).get();
+                    if (!doc.exists) return showToast('Ye post ab available nahi hai');
+                    allPosts.push(Object.assign({ id: doc.id }, doc.data({ serverTimestamps: 'estimate' })));
+                }
+                commentMoment(id);
             } catch (e) { showToast(e.message); }
         }
 
@@ -6551,7 +6596,7 @@
             if (!sec) return;
             const name = myName();
             const uid = me() ? me().uid : null;
-            const mine = uid ? allPosts.filter(p => p.uid === uid) : [];
+            const mine = uid ? myPosts : [];
             document.getElementById('profileAvatar').innerHTML = avatarHtml(name, myPic());
             document.getElementById('profileName').textContent = name;
             document.getElementById('profileUsername').textContent = '@' + (userProfile.username || ((me() && me().email) || 'guest').split('@')[0]);
@@ -6637,6 +6682,7 @@
             if (s) s.remove();
             Object.values(commentUnsubs).forEach(u => u());
             Object.keys(commentUnsubs).forEach(k => delete commentUnsubs[k]);
+            if (!me()) { showSection('homeSection'); openLogin(); return; }
             auth.signOut().then(() => showToast('Logout ho gaye'));
         }
 
@@ -6645,7 +6691,7 @@
             showInfoSection('Ekta Pariwar', '<iframe src="https://ektagroup.github.io/ekta-pariwar/" style="width:100%;height:75vh;border:none;border-radius:16px;background:#fff;"></iframe>');
         }
 
-        function profileLink() { return location.origin + location.pathname + '#user-' + (me() ? me().uid : ''); }
+        function profileLink() { return location.origin + location.pathname; }
 
         function openProfile() {
             closeHamburgerMenu();
