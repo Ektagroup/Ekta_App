@@ -6680,8 +6680,6 @@
         function confirmLogout() {
             const s = document.getElementById('logoutSection');
             if (s) s.remove();
-            Object.values(commentUnsubs).forEach(u => u());
-            Object.keys(commentUnsubs).forEach(k => delete commentUnsubs[k]);
             if (!me()) { showSection('homeSection'); openLogin(); return; }
             auth.signOut().then(() => showToast('Logout ho gaye'));
         }
