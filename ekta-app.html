@@ -6974,7 +6974,7 @@
         function closeConnectMenu() { const m = document.getElementById('connectMenu'); if (m) m.classList.remove('open'); }
         function connectMenuAction(a) {
             closeConnectMenu();
-            if (a === 'group') return createNewGroup();
+            if (a === 'group') return createGroup();
             if (a === 'settings') return showSettings();
             if (a === 'read') { document.querySelectorAll('#chatsTab .chat-badge').forEach(b => b.remove()); return showToast('Sab chats read ho gayi'); }
             showToast('Jald aa raha hai');
