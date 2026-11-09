@@ -5051,6 +5051,16 @@
         }
         
         function insertEmoji(emoji) {
+            const waInput = document.getElementById('chatSection') && document.getElementById('chatMessageInput');
+            if (waInput) {
+                waInput.value += emoji;
+                const es = document.getElementById('emojiSection');
+                if (es) es.remove();
+                showSection('chatSection');
+                toggleChatSendIcon();
+                waInput.focus();
+                return;
+            }
             const chatInput = document.querySelector('.chat-bar-input');
             if (chatInput) {
                 chatInput.value += emoji;
