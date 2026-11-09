@@ -5209,6 +5209,7 @@
             const groupSection = document.createElement('div');
             groupSection.className = 'section active';
             groupSection.id = 'groupCreateSection';
+            groupSection.dataset.returnTo = activeSectionId() || 'groupsSection';
             groupSection.innerHTML = `
                 <button class="back-button" onclick="goBack(event)">
                     <i class="fa-solid fa-arrow-left"></i>
@@ -6898,7 +6899,7 @@
                 groupCreateSection: 'groupsSection', groupChatSection: 'groupsSection', statusCreateSection: 'statusSection', statusViewSection: 'statusSection',
                 momentCreateSection: 'momentsSection', profileEditSection: 'profileSection', shareProfileSection: 'profileSection'
             };
-            let parent = parentMap[id] || 'connectSection';
+            let parent = (cur && cur.dataset.returnTo) || parentMap[id] || 'connectSection';
             if (['callSection', 'emojiSection', 'fileSection', 'cameraSection'].includes(id) && document.getElementById('chatSection')) parent = 'chatSection';
             if (id === 'momentCommentsSection') {
                 parent = commentsReturnTo;
