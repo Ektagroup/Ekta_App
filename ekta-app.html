@@ -4686,7 +4686,8 @@
         }
         
         function openChat(name) {
-            // Create chat section dynamically
+            const oldChat = document.getElementById('chatSection');
+            if (oldChat) oldChat.remove();
             const chatSection = document.createElement('div');
             chatSection.className = 'section active';
             chatSection.id = 'chatSection';
@@ -4871,7 +4872,7 @@
             if (callSection) {
                 callSection.remove();
             }
-            showSection('connectSection');
+            showSection(document.getElementById('chatSection') ? 'chatSection' : 'connectSection');
         }
         
         function muteCall() {
@@ -6888,6 +6889,7 @@
                 momentCreateSection: 'momentsSection', profileEditSection: 'profileSection', shareProfileSection: 'profileSection'
             };
             let parent = parentMap[id] || 'connectSection';
+            if (['callSection', 'emojiSection', 'fileSection', 'cameraSection'].includes(id) && document.getElementById('chatSection')) parent = 'chatSection';
             if (id === 'momentCommentsSection') {
                 parent = commentsReturnTo;
                 if (commentsUnsub) { commentsUnsub(); commentsUnsub = null; }
